@@ -26,21 +26,16 @@ Quick Tutorial
 --------------
 
 1. Download the simulation snapshot
-2. python make_arepo_lime.py
-[3D grid distribution .png]
+2. python make_arepo_lime.py [3D grid distribution .png]
 3. cd Subgrids/
 4. lime -nSG -p 8 rt-lime.c 
-4a. --> The resulting line cubes can be found on the data repository of this example (here).  
+#. --> The resulting line cubes can be found on the data repository of this example (here).  
 5. cd Dendrograms_portions/
-6. python make_moment.py
-[.pngs]
-7. python dendrogram.py
-[.pngs]
-8. python get_peaks_leaves.py
-[.pngs]
+6. python make_moment.py [.pngs]
+7. python dendrogram.py [.pngs]
+8. python get_peaks_leaves.py [.pngs]
 9. python write_portion.py
 10. cd portions_moment0/
 11. python exmp_PCA.py
-12. python new_fits_pca.py
-[.pngs]
+12. python new_fits_pca.py [.pngs]
 13. python pca_summary.py  ??
