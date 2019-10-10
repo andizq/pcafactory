@@ -28,8 +28,7 @@ Quick Tutorial
 1. Download the simulation snapshot
 2. python make_arepo_lime.py [3D grid distribution .png]
 3. cd Subgrids/
-4. lime -nSG -p 8 rt-lime.c 
-#. --> The resulting line cubes can be found on the data repository of this example (here).  
+4. lime -nSG -p 8 rt-lime.c # The resulting line cubes can be found on the data repository of this example (here).  
 5. cd Dendrograms_portions/
 6. python make_moment.py [.pngs]
 7. python dendrogram.py [.pngs]
