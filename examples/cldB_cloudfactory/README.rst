@@ -1,16 +1,16 @@
 (Under development)
 
-Example cloud
--------------
+Cloud Complex description
+-------------------------
 
 * For this example we use a self-gravitating cloud complex inmersed in the galactic potential of a Milky Way-type galaxy. 
 * We let the object evolve for 2 Myr under local gravitational forces in a high resolution portion of the simulation mesh. 
 * There are random supernova explosions located all across the density distribution of the galaxy.
 * There is also chemical evolution for CO and Hydrogen species; sink particle formation (stellar systems); radiative heating and cooling and galactic differential rotation.
 
-For full details on the simulation setup of this and other types of cloud complexes see the papers I and II of the Cloud Factory's series: Smith et al. subm. and Izquierdo et al. in prep (https://github.com/andizq/andizq.github.io/tree/master/pcafactory-data). 
+For full details on the simulation setup of this (cloud complex B) and other types of cloud complexes see the papers I and II of the Cloud Factory's series: Smith et al. subm. and Izquierdo et al. in prep (https://github.com/andizq/andizq.github.io/tree/master/pcafactory-data). 
 
-pcafactory data repository
+pcafactory-data repository
 --------------------------
 
 The data repository of this example is on https://github.com/andizq/andizq.github.io/tree/master/pcafactory-data/examples-data/cldB_cloudfactory
