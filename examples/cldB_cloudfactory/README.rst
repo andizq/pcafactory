@@ -26,37 +26,37 @@ There you will find the following files:
 Quick Tutorial
 --------------
 
-* Download the simulation snapshot 
+1. Download the simulation snapshot 
    
 .. code-block:: bash
 
    curl https://girder.hub.yt/api/v1/item/5da0777768085e00016c2e01/download -o Restest_extracted_001_240
 
-* Read the snapshot and save the cloud physical information formatted for radiative transfer calculations.
+2. Read the snapshot and save the cloud physical information formatted for radiative transfer calculations.
 
 .. code-block:: bash
       
    python make_arepo_lime.py [3D grid distribution .png]
 
-# The output files are stored by default in the folder ./Subgrids
+3. The output files are stored by default in the folder ./Subgrids
 
 .. code-block:: bash
    
    cd Subgrids
 
-# Download the CO excitation information from the LAMDA database. 
+4. Download the CO excitation information from the LAMDA database. 
 
 .. code-block:: bash
    
    curl https://home.strw.leidenuniv.nl/~moldata/datafiles/co.dat -o co.dat 
 
-# We customised the LIME code to model the radiative transfer of Arepo-like (non-uniform) meshes. It is freely available here (https://github.com/andizq/star-forming-regions). The -S flag indicates that the grid was created/processed using sf3dmodels, and the -G flag is for non-uniform grids. The -n flag is to show log messages in the current terminal. We call 8 cores by setting -p 8 (LIME uses openmp for parallel processing). 
+5. We customised the LIME code to model the radiative transfer of Arepo-like (non-uniform) meshes. It is freely available here (https://github.com/andizq/star-forming-regions). The -S flag indicates that the grid was created/processed using sf3dmodels, and the -G flag is for non-uniform grids. The -n flag is to show log messages in the current terminal. We call 8 cores by setting -p 8 (LIME uses openmp for parallel processing). 
 
 .. code-block:: bash
 
    lime -nSG -p 8 rt-lime.c # The resulting line cubes can be found on the data repository for this example (here).  
 
-# Let's create a new folder where moment 0 maps and dendrograms will be hosted.
+6. Let's create a new folder where moment 0 maps and dendrograms will be hosted.
 
 .. code-block:: bash
 
