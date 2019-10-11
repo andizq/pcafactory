@@ -10,12 +10,14 @@ Cloud Complex description
 
 For full details on the simulation setup of this (cloud complex B) and other types of cloud complexes see the papers I and II of the Cloud Factory's series: Smith et al. subm. and Izquierdo et al. in prep (https://github.com/andizq/andizq.github.io/tree/master/pcafactory-data). 
 
+Our simulations are powered by a customised version of the AREPO code (Springel+2010)
+
 pcafactory-data repository
 --------------------------
 
-The data required for this example are on https://girder.hub.yt/#user/5da06b5868085e00016c2dee/folder/5da06ef668085e00016c2df3.
+The data required for this example can be downloaded from here https://girder.hub.yt/#user/5da06b5868085e00016c2dee/folder/5da06ef668085e00016c2df3.
 
-There you can find the following files:
+There you will find the following files:
  
 * Simulation snapshot of the cloud complex.
 * 12CO J=1-0 intensity cubes: 3 line intensity cubes for different cloud orientations (face-on, edge-on phi=0, edge-on phi=90) generated with sf3dmodels and LIME (https://github.com/andizq/star-forming-regions).
@@ -24,20 +26,43 @@ There you can find the following files:
 Quick Tutorial
 --------------
 
-#. Download the simulation snapshot # Restest
-#. Read the snapshot and save physical information for running LIME.
+#. Download the simulation snapshot 
+   
+.. code-block:: bash
+
+   curl https://girder.hub.yt/api/v1/item/5da0777768085e00016c2e01/download -o Restest_extracted_001_240
+
+#. Read the snapshot and save the cloud physical information formatted for the radiative transfer calculations.
 
 .. code-block:: bash
       
    python make_arepo_lime.py [3D grid distribution .png]
 
-#. cd Subgrids/
-#. curl https://home.strw.leidenuniv.nl/~moldata/datafiles/co.dat -o co.dat  # Download the CO file from the LAMDA database. 
-#. lime -nSG -p 8 rt-lime.c # The resulting line cubes can be found on the data repository for this example (here).  
+#. The output files are stored by default in the folder ./Subgrids
 
-   bla blah
+.. code-block:: bash
+   
+   cd Subgrids/
 
-#. cd Dendrograms_portions/
+#. Download the CO excitation information from the LAMDA database. 
+
+.. code-block:: bash
+   
+   curl https://home.strw.leidenuniv.nl/~moldata/datafiles/co.dat -o co.dat 
+
+#. We customised the LIME code to model the radiative transfer of Arepo-like (non-uniform) meshes. It is freely available here (https://github.com/andizq/star-forming-regions). The -S flag indicates that the grid was created/processed using sf3dmodels, and the -G flag is for non-uniform grids. The -n flag is to show log messages in the current terminal. We call 8 cores by setting -p 8 (LIME uses openmp for parallel processing). 
+
+.. code-block:: bash
+
+   lime -nSG -p 8 rt-lime.c # The resulting line cubes can be found on the data repository for this example (here).  
+
+#. Let's create a new folder where moment 0 maps and dendrograms will be hosted.
+
+.. code-block:: bash
+
+   mkdir cube_products
+   cd cube_products
+
 #. python make_moment.py [.pngs]
 #. python dendrogram.py [.pngs]
 #. python get_peaks_leaves.py [.pngs]
