@@ -25,7 +25,12 @@ Quick Tutorial
 --------------
 
 #. Download the simulation snapshot # Restest
-#. python make_arepo_lime.py [3D grid distribution .png]
+#. Read the snapshot and save physical information for running LIME.
+
+.. code-block:: bash
+      
+   python make_arepo_lime.py [3D grid distribution .png]
+
 #. cd Subgrids/
 #. curl https://home.strw.leidenuniv.nl/~moldata/datafiles/co.dat -o co.dat  # Download the CO file from the LAMDA database. 
 #. lime -nSG -p 8 rt-lime.c # The resulting line cubes can be found on the data repository for this example (here).  
