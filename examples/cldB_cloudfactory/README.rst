@@ -13,27 +13,31 @@ For full details on the simulation setup of this (cloud complex B) and other typ
 pcafactory-data repository
 --------------------------
 
-The data repository of this example is on https://github.com/andizq/andizq.github.io/tree/master/pcafactory-data/examples-data/cldB_cloudfactory
+The data required for this example are on https://girder.hub.yt/#user/5da06b5868085e00016c2dee/folder/5da06ef668085e00016c2df3.
 
 There you can find the following files:
  
 * Simulation snapshot of the cloud complex.
-* 12CO J=1-0 intensity: 3 line cubes for different cloud orientations (face-on, edge-on phi=0, edge-on phi=90) generated with sf3dmodels and LIME (https://github.com/andizq/star-forming-regions).
+* 12CO J=1-0 intensity cubes: 3 line intensity cubes for different cloud orientations (face-on, edge-on phi=0, edge-on phi=90) generated with sf3dmodels and LIME (https://github.com/andizq/star-forming-regions).
 * Optical depth cube for the edge-on phi=90 case.
 
 Quick Tutorial
 --------------
 
-1. Download the simulation snapshot
-2. python make_arepo_lime.py [3D grid distribution .png]
-3. cd Subgrids/
-4. lime -nSG -p 8 rt-lime.c # The resulting line cubes can be found on the data repository for this example (here).  
-5. cd Dendrograms_portions/
-6. python make_moment.py [.pngs]
-7. python dendrogram.py [.pngs]
-8. python get_peaks_leaves.py [.pngs]
-9. python write_portion.py
-10. cd portions_moment0/
-11. python exmp_PCA.py
-12. python new_fits_pca.py [.pngs]
-13. python pca_summary.py  ??
+#. Download the simulation snapshot # Restest
+#. python make_arepo_lime.py [3D grid distribution .png]
+#. cd Subgrids/
+#. curl https://home.strw.leidenuniv.nl/~moldata/datafiles/co.dat -o co.dat  # Download the CO file from the LAMDA database. 
+#. lime -nSG -p 8 rt-lime.c # The resulting line cubes can be found on the data repository for this example (here).  
+
+   bla blah
+
+#. cd Dendrograms_portions/
+#. python make_moment.py [.pngs]
+#. python dendrogram.py [.pngs]
+#. python get_peaks_leaves.py [.pngs]
+#. python write_portion.py
+#. cd portions_moment0/
+#. python exmp_PCA.py
+#. python new_fits_pca.py [.pngs]
+#. python pca_summary.py  ??
