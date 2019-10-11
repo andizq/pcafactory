@@ -50,7 +50,7 @@ Quick Tutorial
    
    curl https://home.strw.leidenuniv.nl/~moldata/datafiles/co.dat -o co.dat 
 
-5. We customised the LIME code to model the radiative transfer of Arepo-like (non-uniform) meshes. It is freely available `here <https://github.com/andizq/star-forming-regions>`_. The -S flag indicates that the grid was created/processed using sf3dmodels, and the -G flag is for non-uniform grids. The -n flag is to show log messages on the current terminal. We call 8 cores by setting -p 8 (LIME uses openmp for parallel processing). 
+5. We customised the LIME code to model the radiative transfer of Arepo-like (non-uniform) meshes. It is freely available `here <https://github.com/andizq/star-forming-regions>`_. The flag -S indicates that the grid was created/processed using sf3dmodels, and the flag -G is for non-uniform grids. The flag -n is to show log messages on the current terminal. We call 8 cores by setting -p 8 (LIME uses openmp for parallel processing). 
 
 .. code-block:: bash
 
@@ -88,17 +88,19 @@ Quick Tutorial
    python write_portion.py
    cd portions_moment0
 
-11. Run the principal component analysis (PCA) both for cloud portions and the cloud complex as a whole and store the (PCA-derived) velocity fluctuations (dv) and spatial scales (l) in data files.
+11. Run the principal component analysis (PCA) both for cloud portions and the cloud complex as a whole, and store the (PCA-derived) velocity fluctuations (dv) and spatial scales (l) in data files.
 
 .. code-block:: bash
 
    python exmp_PCA.py
 
-12. Read the PCA-derived scales to compute the cloud complex structure functions and show figures.
+12. Read the PCA-derived scales to compute the cloud complex structure functions and show figures. Flag -i to specify the cloud inclination from ['faceon', 'edgeon', 'edgeon_phi90'] and -u for image units from ['jypxl', 'tau'] (defaults to 'faceon' and 'jypxl').
 
 .. code-block:: bash
 
-   python new_fits_pca.py [.pngs]
-
+   python new_fits_pca.py 
+   python new_fits_pca.py -i edgeon
+   python new_fits_pca.py -i edgeon_phi90
+   python new_fits_pca.py -i edgeon_phi90 -u tau
 
 #python pca_summary.py  ??
