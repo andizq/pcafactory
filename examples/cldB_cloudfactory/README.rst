@@ -50,24 +50,37 @@ Quick Tutorial
    
    curl https://home.strw.leidenuniv.nl/~moldata/datafiles/co.dat -o co.dat 
 
-5. We customised the LIME code to model the radiative transfer of Arepo-like (non-uniform) meshes. It is freely available here (https://github.com/andizq/star-forming-regions). The -S flag indicates that the grid was created/processed using sf3dmodels, and the -G flag is for non-uniform grids. The -n flag is to show log messages in the current terminal. We call 8 cores by setting -p 8 (LIME uses openmp for parallel processing). 
+5. We customised the LIME code to model the radiative transfer of Arepo-like (non-uniform) meshes. It is freely available here (https://github.com/andizq/star-forming-regions). The -S flag indicates that the grid was created/processed using sf3dmodels, and the -G flag is for non-uniform grids. The -n flag is to show log messages on the current terminal. We call 8 cores by setting -p 8 (LIME uses openmp for parallel processing). 
 
 .. code-block:: bash
 
    lime -nSG -p 8 rt-lime.c # The resulting line cubes can be found on the data repository for this example (here).  
 
-6. Let's create a new folder where moment 0 maps and dendrograms will be hosted.
+6. Let's create a new folder to host moment 0 maps and dendrograms.
 
 .. code-block:: bash
 
    mkdir cube_products
    cd cube_products
-
+   
+7. Compute integrated intensity (moment 0) maps.
 #. python make_moment.py [.pngs]
+
+8. Compute dendrograms on moment 0 maps to extract smaller-scale cloud portions.
 #. python dendrogram.py [.pngs]
+
+9. Get coordinates from moment 0 peaks in dendrogram leaves (30 pc wide boxes will be centred on these peaks later on for further analysis). Also, the following script creates the folder ./portions_moment0 where information from cloud portions, colour codes, PCA outputs and figures are stored. 
 #. python get_peaks_leaves.py [.pngs]
+
+10. Write cloud portions (30 pc wide boxes) in folder ./portions_moment0
 #. python write_portion.py
 #. cd portions_moment0/
+
+11. Run the principal component analysis (PCA) both for cloud portions and the cloud complex as a whole and store the (PCA-derived) velocity fluctuations (dv) and spatial scales (l) in data files.
 #. python exmp_PCA.py
+
+12. Read the PCA-derived scales to compute the cloud complex structure functions and show figures.
 #. python new_fits_pca.py [.pngs]
+
+
 #. python pca_summary.py  ??
