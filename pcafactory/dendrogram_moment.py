@@ -10,13 +10,14 @@ parser = ArgumentParser(prog='Dendrogram on moment 0', description='Compute dend
 parser.add_argument('-i', '--incl', default='faceon', help="Image inclination ['faceon', 'edgeon', 'edgeon_phi90'] to compute the moment from")
 parser.add_argument('-f', '--folder', default='./', help="Location of the input moment0")
 parser.add_argument('-u', '--unit', default='jypxl', help="Intensity units [jypxl, kelvin, tau]")
+parser.add_argument('-R', '--rtmode', default='nonLTE', help="Radiative transfer mode [LTE, nonLTE]")
 
 args = parser.parse_args()
 if args.folder[-1] != '/': args.folder += '/'
 #**************************************************
 #READING FILES
 #**************************************************
-hdu = fits.open(args.folder+'moment0_img_CO_J1-0_%s_%s_%s.fits'%(get_rt_mode(), args.unit, args.incl))[0]
+hdu = fits.open(args.folder+'moment0_img_CO_J1-0_%s_%s_%s.fits'%(args.rtmode, args.unit, args.incl))[0]
 #hdu.header['CUNIT3'] = 'm/s'
 pars = np.loadtxt('pars_dendrogram.txt', dtype=np.str, delimiter=None, unpack=True) 
 if args.unit == 'jypxl': id = pars[0] == args.incl 

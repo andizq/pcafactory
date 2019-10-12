@@ -349,7 +349,7 @@ if __name__ == '__main__':
     index_portions = np.asarray(index_portions)
 
     fit_heyer = func_heyer(data_sim)
-    ax1.set_title(get_cloud_history(add=[args.incl]), fontsize=SMALL_SIZE)
+    #ax1.set_title(get_cloud_history(add=[args.incl]), fontsize=SMALL_SIZE)
     ax1.set_xlim(np.min(data_sim), np.max(data_sim))
     ax1.set_ylim(np.min(fit_heyer)-1.0, np.max(fit_heyer)+0.9)
     plot_ax1_heyer(ax1,data_sim)
@@ -377,7 +377,7 @@ if __name__ == '__main__':
     fits_colors = ['red', 'blue', 'darkgreen'] + [np.str(c) for c in colors_accepted]
     write_fits_data(fits_data, fits_runs, fits_points, fits_kind, fits_colors, naccepted, nrejected, file='data_fits_%s_%s.txt'%tag_tuple)
 
-    ax4.set_title(ax1.get_title(), fontsize=TINY_SIZE-1.5)
+    #ax4.set_title(ax1.get_title(), fontsize=TINY_SIZE-1.5)
     ax4_max_lim = np.max(fits_data[:,0:2], axis=0) + 0.2
     #plot_ax4_mean_pie(ax4, fit_pars_portions, ax4_max_lim)
     ax4.set_xlim(0, ax4_max_lim[0])

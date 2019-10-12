@@ -1,0 +1,7 @@
+# inclination   delta_factor(min_delta = factor * mean_val)   min_npix 
+faceon		1	     180
+edgeon		5	     150
+edgeon_phi90	10	     150
+edgeon_phi60	1	     150
+edgeon_phim30	10	     150
+edgeon_phi90tau	1	     70

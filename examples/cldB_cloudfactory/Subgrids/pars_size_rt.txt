@@ -1,0 +1,2 @@
+# radius(pc)	distance(pc)	pixel_size(arcsecs)
+110		2400		26

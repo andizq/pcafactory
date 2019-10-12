@@ -192,7 +192,7 @@ def plot_nonLTEvsLTE(case, cloud, time, unit, incl, folder_nonLTE='Lime-arepo-no
         for j in range(ncols):
             epsx = 3e-3
             epsy = epsx*ratio
-            dx = (2/3.-10*epsx)/ncols
+            dx = (2/3.-20*epsx)/ncols
             dy = dx*ratio
             ax.append(fig.add_axes([1/3.+(dx+epsx)*j, 1-(dy+epsy)*(i+1.), dx, dx * ratio]))
             n+=1
@@ -233,16 +233,40 @@ def plot_nonLTEvsLTE(case, cloud, time, unit, incl, folder_nonLTE='Lime-arepo-no
 
     plt.savefig('./line_profiles/LINE_nonLTEvsLTE_%s_cld%s_ext%s_%s_%s.pdf'%(case,cloud,time,unit,incl), dpi=500, bbox_inches='tight')
     return cube_data
-    
-#cube_data = plot_complex(rt_folders[0],cases[2],cloudsCD[1],time_fdbck[0],units[0],incl[2])
-#cube_data = plot_complex(rt_folders[0],cases[1],cloudsAB[1],time_SG[2],units[0],incl[2])
+"""    
+cube_data = plot_complex(rt_folders[0],cases[2],cloudsCD[1],time_fdbck[0],units[0],incl[2])
+cube_data = plot_complex(rt_folders[0],cases[1],cloudsAB[1],time_SG[2],units[0],incl[2])
 cube_data = plot_nonLTEvsLTE(cases[0],cloudsAB[1],time_nSG[0],units[0],incl[2])
 cube_data = plot_nonLTEvsLTE(cases[0],cloudsAB[1],time_nSG[0],units[0],incl[0])
 cube_data = plot_nonLTEvsLTE(cases[0],cloudsAB[1],time_nSG[0],units[0],incl[1])
 cube_data = plot_nonLTEvsLTE(cases[1],cloudsAB[1],time_SG[1],units[0],incl[2])
 cube_data = plot_nonLTEvsLTE(cases[2],cloudsCD[1],time_fdbck[0],units[0],incl[2])
+"""
+def loop_figs(case, clouds, times, units, incl):
+    for cloud in clouds:
+        for time in times:
+            for unit in [units[0]]:
+                for inc in incl:
+                    cube_data = plot_nonLTEvsLTE(case, cloud, time, unit, inc)
+                    plt.close()
 
-plt.show()
+def make_all():
+    case = cases[0]
+    clouds = cloudsAB
+    times = time_nSG
+    loop_figs(case, clouds, times, units, incl)
+
+    case = cases[1]
+    clouds = cloudsAB
+    times = time_SG
+    loop_figs(case, clouds, times, units, incl)
+
+    case = cases[2]
+    clouds = cloudsCD
+    times = time_fdbck
+    loop_figs(case, clouds, times, units, incl)
+
+make_all()
 
 #Missing: plot line profile from the whole complex
 #Missing: overlaid nonLTE profiles

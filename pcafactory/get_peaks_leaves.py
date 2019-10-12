@@ -1,5 +1,6 @@
 import numpy as np
 from numpy.ma import masked_array
+
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
@@ -24,15 +25,16 @@ from utils import get_rt_mode, unit_dict
 
 if int(sys.version[0]) <= 2: 
     message = 'You are using python2.x or below.'
-    message += ' Please note that many of the plots adjustments are only'
+    message += ' Please note that many of the plot adjustments are only'
     message += ' available through Astropy (>=3.x) and therefore python (>=3.x).'
-    message += ' This means that your final figure will have defects.'
+    message += ' This means that your final figure may not be perfect.'
     warnings.warn(message)
 
 parser = ArgumentParser(prog='Peaks in dendrograms', description='Get peaks in dendrogram leaves')
 parser.add_argument('-i', '--incl', default='faceon', help="Image inclination ['faceon', 'edgeon', 'edgeon_phi90'] to compute the moment from")
 parser.add_argument('-f', '--folder', default='./', help="Location of the input dendrogram")
 parser.add_argument('-u', '--unit', default='jypxl', help="Intensity units [jypxl, kelvin, tau]")
+parser.add_argument('-R', '--rtmode', default='nonLTE', help="Radiative transfer mode [LTE, nonLTE]")
 
 args = parser.parse_args()
 if args.folder[-1] != '/': args.folder += '/'
@@ -47,7 +49,7 @@ print (args.incl, args.unit)
 tag_tuple = (args.unit,args.incl)
 
 d = Dendrogram.load_from(args.folder+'img_moment0_dendrogram_%s_%s.fits'%tag_tuple)
-hdu = fits.open(args.folder+'moment0_img_CO_J1-0_%s_%s_%s.fits'%(get_rt_mode(), args.unit, args.incl))[0]
+hdu = fits.open(args.folder+'moment0_img_CO_J1-0_%s_%s_%s.fits'%(args.rtmode, args.unit, args.incl))[0]
 w = wcs.WCS(hdu.header)
 
 source_dist = float(np.loadtxt('../pars_size_rt.txt')[1])

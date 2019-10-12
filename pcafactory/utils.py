@@ -16,7 +16,7 @@ case_dict = {'Fjeans': 'Self-Gravity + Mixed Supernovae',
              'nSG': 'No Self-Gravity + Random Supernovae', 
              'SGjeans': 'Self-Gravity + Random Supernovae'}
 
-get_rt_mode = lambda: rt_dict[cwd.split('RT-Analysis/')[1].split('/')[0]] #Gets RT mode based on root directory
+get_rt_mode = lambda path=cwd: rt_dict[path.split('RT-Analysis/')[1].split('/')[0]] #Gets RT mode based on root directory
 
 literature_dict = {'Kolmogorov+1941': {'kwargs': {'linestyle': '--', 'color': 'blue'}, 'v0': None, 'gamma': 1/3., 'dv0': None, 'dgamma': None, 'kind': 'line'},
                    'Kraichnan+1974': {'kwargs': {'linestyle': '--', 'color': 'red'}, 'v0': None, 'gamma': 1/2., 'dv0': None, 'dgamma': None, 'kind': 'line'},
@@ -39,22 +39,25 @@ literature_dict = {'Kolmogorov+1941': {'kwargs': {'linestyle': '--', 'color': 'b
                    'Traficante+2018b': {'kwargs': {'linestyle': '-', 'color': 'darkgoldenrod'}, 'v0': None, 'gamma': 0.09, 'dv0': None, 'dgamma': 0.04, 'kind': 'line'},
                    }
 
-def get_cloud_history(add=None, arepo_step=0.2):
+def get_cloud_history(path=cwd, add=None, arepo_step=0.2, ret_label=False):
     #arepo_step Myr
-    cloud = cwd.split('cld')[1][0]
-    rt_mode = get_rt_mode()
+    #if path is None: path = cwd
+    cloud = path.split('cld')[1][0]
+    rt_mode = get_rt_mode(path)
     
     for key in case_dict: 
-        if key in cwd: case = case_dict[key]; break
+        if key in path: case = case_dict[key]; break
 
-    if key == 'Fjeans': pot_time = int(cwd.split(key)[1][0:3])
-    else: pot_time = int(cwd.split(key)[0][-3:])
-    cloud_time = int(cwd.split('extracted_')[1][0:3])
+    if key == 'Fjeans': pot_time = int(path.split(key)[1][0:3])
+    else: pot_time = int(path.split(key)[0][-3:])
+    cloud_time = int(path.split('extracted_')[1][0:3])
     time = (cloud_time - pot_time) * arepo_step
     extras = ''
     if add != None:
         for a in add: extras+= ' $-$ %s'%a
-    return r'%s, cloud %s, %.1f Myr old $-$ %s'%(case, cloud, time, rt_mode) + extras
+
+    if ret_label: return r'%s, cloud %s, %.1f Myr old $-$ %s'%(case, cloud, time, rt_mode) + extras
+    else: return case, cloud, time, rt_mode
 
 
 def alpha_to_beta(alpha, dalpha):

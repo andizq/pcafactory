@@ -13,6 +13,7 @@ parser.add_argument('-i', '--incl', default='faceon', help="Image inclination ['
 parser.add_argument('-f', '--folder', default='../', help="Location of the input data cube")
 parser.add_argument('-u', '--unit', default='jypxl', help="Intensity units [jypxl, kelvin, tau]")
 parser.add_argument('-r', '--region', help='Region file to be loaded.')
+parser.add_argument('-R', '--rtmode', default='nonLTE', help="Radiative transfer mode [LTE, nonLTE]")
 
 args = parser.parse_args()
 if args.folder[-1] != '/': args.folder += '/'
@@ -24,7 +25,7 @@ folder_reg = './portions_moment0/' #output folder
 #**************************
 #READING AND WRITING FILES
 #**************************
-cube = fits.open(args.folder+'img_CO_J1-0_%s_%s_%s.fits'%(get_rt_mode(), args.unit, args.incl))[0]
+cube = fits.open(args.folder+'img_CO_J1-0_%s_%s_%s.fits'%(args.rtmode, args.unit, args.incl))[0]
 cube.header['CUNIT3'] = 'm/s'
 
 regionname = 'clouds_boxes_%s_%s.reg'%(args.unit, args.incl)

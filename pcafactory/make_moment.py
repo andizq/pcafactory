@@ -9,11 +9,12 @@ parser = ArgumentParser(prog='Computing moment 0', description='Compute moment 0
 parser.add_argument('-i', '--incl', default='faceon', help="Image inclination ['faceon', 'edgeon', 'edgeon_phi90'] to compute the moment from")
 parser.add_argument('-f', '--folder', default='../', help="Location of the input data cube")
 parser.add_argument('-u', '--unit', default='jypxl', help="Intensity units [jypxl, kelvin, tau]")
+parser.add_argument('-R', '--rtmode', default='nonLTE', help="Radiative transfer mode [LTE, nonLTE]")
 
 args = parser.parse_args()
 if args.folder[-1] != '/': args.folder += '/'
 
-img_name = 'img_CO_J1-0_%s_%s_%s.fits'%(get_rt_mode(), args.unit, args.incl)
+img_name = 'img_CO_J1-0_%s_%s_%s.fits'%(args.rtmode, args.unit, args.incl)
 fn = args.folder + img_name
 out_name = 'moment0_' + img_name
 

@@ -16,6 +16,7 @@ parser.add_argument('-f', '--folder', default='../../', help="Location of the or
 parser.add_argument('-u', '--unit', default='jypxl', help="Intensity units [jypxl, kelvin, tau]")
 parser.add_argument('-n', '--portionid', default=0, type=int, help='Name id of the image portion.')
 parser.add_argument('-c', '--cloud', default=0, type=int, help='Compute PCA from the entire region.')
+parser.add_argument('-R', '--rtmode', default='nonLTE', help="Radiative transfer mode [LTE, nonLTE]")
 #parser.add_argument('-o', '--output', help='Output name for the pca images + incl.; takes effect only if --name is set')
 
 args = parser.parse_args()
@@ -24,7 +25,7 @@ if args.folder[-1] != '/': args.folder += '/'
 #TAGGING INPUT AND OUTPUT
 #**************************
 output = 'pca_turbustat_'+args.incl
-if args.cloud: cubename = args.folder+"img_CO_J1-0_%s_%s_%s.fits"%(get_rt_mode(), args.unit, args.incl)
+if args.cloud: cubename = args.folder+"img_CO_J1-0_%s_%s_%s.fits"%(args.rtmode, args.unit, args.incl)
 else: cubename = "./img_%s_%s_portion_%03d.fits"%(args.unit, args.incl, args.portionid)
 
 try:

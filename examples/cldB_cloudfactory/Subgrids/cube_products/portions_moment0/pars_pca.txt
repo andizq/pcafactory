@@ -1,0 +1,7 @@
+# incl	min_eigval_portion	min_eigval_cloud
+faceon		0.999		0.999
+edgeon		0.999		0.999
+edgeon_phi90	0.999		0.999
+edgeon_phi60	0.999		0.999
+edgeon_phim30	0.9995		0.9995
+edgeon_phi90tau 0.999		0.999
