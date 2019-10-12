@@ -32,7 +32,7 @@ Quick Tutorial
 
    curl https://girder.hub.yt/api/v1/item/5da0777768085e00016c2e01/download -o Restest_extracted_001_240
 
-2. Read the snapshot and save the cloud physical information formatted for radiative transfer calculations.
+2. Read the snapshot and save the formatted physical information of the cloud for radiative transfer calculations.
 
 .. code-block:: bash
       
