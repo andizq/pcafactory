@@ -1,10 +1,13 @@
+ARG1=${1:-faceon}
+ARG2=${2:-jypxl}
 
-f=$(ls *img_jypxl_faceon_portion* | wc -l)
+f=$(ls *img_"$ARG2"_"$ARG1"_portion* | wc -l)
 echo $f
+
 for((i=0;i<f;i++)); do
-    python3 /Users/andizq/pcafactory/pcafactory/exmp_PCA.py -n $i
+    python $PCAFACTORY/exmp_PCA.py -n $i -i $ARG1 -u $ARG2
 done
-python3 /Users/andizq/pcafactory/pcafactory/exmp_PCA.py -c 1
+python $PCAFACTORY/exmp_PCA.py -c 1 -i $ARG1 -u $ARG2
 
 : <<'END'
 e=$(ls *img_jypxl_edgeon_portion* | wc -l)

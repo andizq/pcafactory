@@ -270,10 +270,11 @@ def plot_dendro():
     ncols = plot_legend(nboxes)
     x0 = -ncols*0.275
     plot_colorbar(x0)
-    plt.savefig("img_moment0_%s_%s.png"%tag_tuple, dpi = 500, bbox_inches='tight')
-    plt.savefig("img_moment0_%s_%s.pdf"%tag_tuple, dpi = 500, bbox_inches='tight')
-    plot_leaves(); plot_branches(); plot_legend(nboxes)
-    plt.savefig("img_moment0dendro_%s_%s.png"%tag_tuple, dpi = 500, bbox_inches='tight')
-
+    output = "img_moment0_%s_%s.png"%tag_tuple
+    plt.savefig(output, dpi = 500, bbox_inches='tight')
+    #plot_leaves(); plot_branches(); plot_legend(nboxes)
+    #plt.savefig("img_moment0dendro_%s_%s.png"%tag_tuple, dpi = 100, bbox_inches='tight')
+    print ('Saving figure on', output)
+        
 plot_dendro()
-plt.show()
+#plt.show()

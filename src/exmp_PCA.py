@@ -87,3 +87,5 @@ columns = col_finite(np.array([spatial, spectral, spatial_error, spectral_error]
 if args.cloud: output_points = 'pca_%s_%s_cloud.txt'%(args.unit, args.incl)
 else: output_points = 'pca_%s_%s_portion_%03d.txt'%(args.unit, args.incl, args.portionid)
 np.savetxt(output_points, columns)
+
+print ('Saving data on', output_points)

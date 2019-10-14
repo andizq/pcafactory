@@ -1,10 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from argparse import ArgumentParser
-import aplpy
 from astrodendro import Dendrogram
 from astropy.io import fits
-from utils import get_rt_mode
+from utils import get_rt_mode, unit_dict
 
 parser = ArgumentParser(prog='Dendrogram on moment 0', description='Compute dendrogram onn moment 0 from data cube')
 parser.add_argument('-i', '--incl', default='faceon', help="Image inclination ['faceon', 'edgeon', 'edgeon_phi90'] to compute the moment from")
@@ -84,13 +83,18 @@ for i in range(num_conts): mask_hdu_bran[i] = fits.PrimaryHDU(mask_branches[i].a
 #**************************************************
 #PLOTTING by APLpy
 #**************************************************
+
+try: import aplpy
+except ImportError:
+    raise ImportError("The dendrograms were successfully saved and you can carry on with your analysis. However, the dendrograms visualisation failed because you don't have the aplpy package installed (https://aplpy.readthedocs.io)")
+    
 fig = aplpy.FITSFigure(hdu, figsize=(8, 6))
 fig.add_label(0.5, 1.10, 'Moment 0\nFrom $^{12}CO$ $J=1-0$', relative=True, size = 12)
 fig.show_colorscale(cmap='viridis_r', vmin = mean_val/10, stretch='linear',
                     vmax = mean_val*2
                     )
 fig.add_colorbar()
-fig.colorbar.set_axis_label_text(r'I$_\nu$ (Jy/pixel)')
+fig.colorbar.set_axis_label_text(r'M$_0$ (%s km/s)'%unit_dict[args.unit])
 
 def plot_leaves():
     leafc = 'red'
@@ -106,9 +110,9 @@ def plot_branches():
         branchls = ['-']
     print (branchc)
     for i in range(num_conts): fig.show_contour(mask_hdu_bran[i],
-                                                 colors=branchc[i],
-                                                 linestyles = branchls[i],
-                                                 linewidths=0.8)
+                                                colors=branchc[i],
+                                                linestyles = branchls[i],
+                                                linewidths=0.8)
     if num_conts > 0:
         plt.plot([],[], branchls[0], color=branchc[0],label='Branch: {bran.idx}'.format(bran = minlvl_branches[0]))
         if num_conts > 1:
@@ -119,13 +123,14 @@ def plot_legend():
     plt.legend(loc=(-23.7,0.9), framealpha = 0.97, fontsize = 8.5, fancybox = True)
 
 def plot_dendro():
-    plt.savefig("img_moment0_%s_%s.png"%(args.unit,args.incl), dpi = 500)
+    #plt.savefig("img_moment0_%s_%s.png"%(args.unit,args.incl))#, dpi = 500)
     plot_leaves(); plot_branches(); plot_legend()
-    plt.savefig("img_moment0dendro_%s_%s.png"%(args.unit,args.incl), dpi = 500)
-
-plot_dendro()
+    output = "img_moment0dendro_%s_%s.png"%(args.unit,args.incl)
+    plt.savefig(output)#, dpi = 500)
+    print ('Saving figure on', output)
 
 fig.tick_labels.set_xformat('dd')
 fig.tick_labels.set_yformat('dd')
 
-plt.show()
+plot_dendro()
+#plt.show()

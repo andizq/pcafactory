@@ -5,7 +5,7 @@ case $1 in
     "moment")
 	filename="make_moment.py"
 	;;
-    "dendro")
+    "dendrogram")
 	filename="dendrogram_moment.py"
 	;;
     "peaks")
@@ -20,7 +20,7 @@ case $1 in
     *)
 esac
 
-python $TOOLS_PCA/$filename -i faceon
-python $TOOLS_PCA/$filename -i edgeon
-python $TOOLS_PCA/$filename -i edgeon_phi90
-python $TOOLS_PCA/$filename -i edgeon_phi90 -u tau
+python $PCAFACTORY/$filename -i faceon
+python $PCAFACTORY/$filename -i edgeon
+python $PCAFACTORY/$filename -i edgeon_phi90
+python $PCAFACTORY/$filename -i edgeon_phi90 -u tau
