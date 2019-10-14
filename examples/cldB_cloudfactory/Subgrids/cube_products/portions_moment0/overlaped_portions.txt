@@ -1,7 +1,5 @@
 #Overlaping portions to reject. if None put -1
 faceon	 0,5,7,11
-edgeon	 0,1,5
-edgeon_phi90	0
-edgeon_phi60	0,2
-edgeon_phim30	2
-edgeon_phi90tau	 3
+edgeon	 9,5,2,3,7
+edgeon_phi90	0,3,5
+edgeon_phi90tau	 2,4

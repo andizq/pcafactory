@@ -50,11 +50,13 @@ Quick Tutorial
    
    curl https://home.strw.leidenuniv.nl/~moldata/datafiles/co.dat -o co.dat 
 
-5. We customised the LIME code to model the radiative transfer of Arepo-like (non-uniform) meshes. It is freely available `here <https://github.com/andizq/star-forming-regions>`_. The flag -S indicates that the grid was created/processed using sf3dmodels, and the flag -G is for non-uniform grids. The flag -n is to show log messages on the current terminal. We call 8 cores by setting -p 8 (LIME uses openmp for parallel processing). 
+5. We customised the LIME code to model the radiative transfer of Arepo-like (non-uniform) meshes. It is freely available `here <https://github.com/andizq/star-forming-regions>`_. The flag -S indicates that the grid was created/processed using `sf3dmodels <https://github.com/andizq/star-forming-regions>`_, and the flag -G is for non-uniform grids. The flag -n is to show log messages on the current terminal. We call 8 cores by setting -p 8 (LIME uses openmp for parallel processing). 
 
 .. code-block:: bash
 
-   lime -nSG -p 8 rt-lime.c # The resulting line cubes can be found on the data repository for this example (here).  
+   lime -nSG -p 8 rt-lime.c 
+
+The resulting line cubes (.fits) can be found on the data repository for this example.  
 
 6. Let's create a new folder to host moment 0 maps and dendrograms.
 
@@ -63,44 +65,55 @@ Quick Tutorial
    mkdir cube_products
    cd cube_products
    
-7. Compute integrated intensity (moment 0) maps.
+7. Compute integrated intensity (moment 0) maps. Use the flag -i to specify the cloud inclination from ['faceon', 'edgeon', 'edgeon_phi90'] and -u for image units from ['jypxl', 'tau'] (defaults to 'faceon' and 'jypxl').
 
 .. code-block:: bash
 
-   python make_moment.py [.pngs]
+   python $PCAFACTORY/make_moment.py -i faceon
+   python $PCAFACTORY/make_moment.py -i edgeon 
+   python $PCAFACTORY/make_moment.py -i edgeon_phi90
+   python $PCAFACTORY/make_moment.py -i edgeon_phi90 -u tau
+
+Alternatively, the bash script *all.sh* included in the *src/* folder runs the script for all the inclinations and units using the -i and -u flags. 
+
+.. code-block:: bash
+   
+   sh $PCAFACTORY/all.sh moment
+
+The script executed by *all.sh* is determined by the accompanying argument in the command. You can use one from [moment, dendrogram, peaks, write, fit].  
 
 8. Compute dendrograms on moment 0 maps to extract smaller-scale cloud portions.
 
 .. code-block:: bash
 
-   python dendrogram.py [.pngs]
+   sh $PCAFACTORY/all.sh dendrogram
 
 9. Get coordinates from moment 0 peaks in dendrogram leaves (30 pc wide boxes will be centred on these peaks later on for further analysis). Also, the following script creates the folder ./portions_moment0 where information from cloud portions, colour codes, PCA outputs and figures will stored. 
 
 .. code-block:: bash
 
-   python get_peaks_leaves.py [.pngs]
+   sh $PCAFACTORY/all.sh peaks
 
 10. Write cloud portions (30 pc wide boxes) in folder ./portions_moment0
 
 .. code-block:: bash
 
-   python write_portion.py
+   sh $PCAFACTORY/all.sh write
    cd portions_moment0
 
 11. Run the principal component analysis (PCA) both for cloud portions and the cloud complex as a whole, and store the (PCA-derived) velocity fluctuations (dv) and spatial scales (l) in data files.
 
 .. code-block:: bash
 
-   python exmp_PCA.py
+   sh $PCAFACTORY/run_pca.sh faceon
+   sh $PCAFACTORY/run_pca.sh edgeon
+   sh $PCAFACTORY/run_pca.sh edgeon_phi90
+   sh $PCAFACTORY/run_pca.sh edgeon_phi90 tau
 
-12. Read the PCA-derived scales to compute the cloud complex structure functions and show figures. Flag -i to specify the cloud inclination from ['faceon', 'edgeon', 'edgeon_phi90'] and -u for image units from ['jypxl', 'tau'] (defaults to 'faceon' and 'jypxl').
+12. Read the PCA-derived scales to compute the cloud complex structure functions and show the resulting figures.
 
 .. code-block:: bash
 
-   python new_fits_pca.py 
-   python new_fits_pca.py -i edgeon
-   python new_fits_pca.py -i edgeon_phi90
-   python new_fits_pca.py -i edgeon_phi90 -u tau
+   sh $PCAFACTORY/all.sh fit
 
 #python pca_summary.py  ??
