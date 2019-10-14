@@ -71,6 +71,10 @@ examples/*.inp
 *.fits
 *.png
 *.tab
+*.txt
+*.pdf
+*.reg
+*.sf3d
 
 # Specific files
 rt-lime.c
