@@ -39,10 +39,10 @@ Quick Tutorial
    python make_arepo_lime.py
 
 .. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/cellsize_numdens-AREPOgrid.png?raw=true
-   :width: 49.5%
+   :width: 30%
 
 .. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/3Dpoints_snap.png?raw=true
-   :width: 49.5%
+   :width: 30%
 
 
 3. The output files are stored by default in the folder ./Subgrids
@@ -94,6 +94,19 @@ The script executed by *all.sh* is determined by the accompanying argument in th
 .. code-block:: bash
 
    sh $PCAFACTORY/all.sh dendrogram
+
+.. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_moment0dendro_jypxl_faceon.png?raw=true
+   :width: 30%
+
+.. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_moment0dendro_jypxl_edgeon.png?raw=true
+   :width: 30%
+
+.. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_moment0dendro_jypxl_edgeon_phi90.png?raw=true
+   :width: 30%
+
+.. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_moment0dendro_tau_edgeon_phi90?raw=true
+   :width: 30%
+
 
 9. Get coordinates from moment 0 peaks in dendrogram leaves (30 pc wide boxes will be centred on these peaks later on for further analysis). Also, the following script creates the folder ./portions_moment0 where information from cloud portions, colour codes, PCA outputs and figures will stored. 
 
