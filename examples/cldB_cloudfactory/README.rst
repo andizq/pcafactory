@@ -36,7 +36,14 @@ Quick Tutorial
 
 .. code-block:: bash
       
-   python make_arepo_lime.py [3D grid distribution .png]
+   python make_arepo_lime.py
+
+.. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/cellsize_numdens-AREPOgrid.png?raw=true
+   :width: 49.5%
+
+.. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/3Dpoints_snap.png?raw=true
+   :width: 49.5%
+
 
 3. The output files are stored by default in the folder ./Subgrids
 
