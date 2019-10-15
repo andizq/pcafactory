@@ -98,21 +98,15 @@ The script executed by *all.sh* is determined by the accompanying argument in th
 .. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_moment0dendro_jypxl_faceon.png?raw=true
    :width: 30%
 
-.. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_moment0dendro_jypxl_edgeon.png?raw=true
-   :width: 30%
-
-.. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_moment0dendro_jypxl_edgeon_phi90.png?raw=true
-   :width: 30%
-
-.. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_moment0dendro_tau_edgeon_phi90?raw=true
-   :width: 30%
-
 
 9. Get coordinates from moment 0 peaks in dendrogram leaves (30 pc wide boxes will be centred on these peaks later on for further analysis). Also, the following script creates the folder ./portions_moment0 where information from cloud portions, colour codes, PCA outputs and figures will stored. 
 
 .. code-block:: bash
 
    sh $PCAFACTORY/all.sh peaks
+
+.. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_moment0_jypxl_faceon.png?raw=true
+   :width: 30%
 
 10. Write cloud portions (30 pc wide boxes) in folder ./portions_moment0
 
@@ -135,5 +129,12 @@ The script executed by *all.sh* is determined by the accompanying argument in th
 .. code-block:: bash
 
    sh $PCAFACTORY/all.sh fit
+
+.. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_fit_jypxl_faceon_allportions.pdf?raw=true
+   :width: 30%
+
+.. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/PCA_jypxl_faceon_offsets.pdf?raw=true
+   :width: 30%
+
 
 #python pca_summary.py  ??
