@@ -2,6 +2,4 @@
 faceon		160
 edgeon		120
 edgeon_phi90	140
-edgeon_phi60	140
-edgeon_phim30	140
 edgeon_phi90tau	140
