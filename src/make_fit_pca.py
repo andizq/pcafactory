@@ -386,6 +386,10 @@ if __name__ == '__main__':
     ax4.set_ylabel(r'$\alpha_{\rm PCA}$', fontsize=BIGGER_SIZE, labelpad=5)
     #ax4.legend(framealpha=0.5, fontsize=TINY_SIZE+1, loc='best', bbox_to_anchor=(0., 0.15, 1.0, 0.85)) #Choose the best loc for ax4.legend above y=0.15
     ax4.legend(framealpha=0.5, fontsize=TINY_SIZE+1, loc='lower left', bbox_transform=ax4.transAxes, bbox_to_anchor=(1.005, -0.019))
-    fig.savefig('img_fit_%s_%s_allportions.pdf'%tag_tuple, dpi=500, bbox_inches='tight')
-    fig2.savefig('PCA_%s_%s_offsets.pdf'%tag_tuple, dpi=500, bbox_inches='tight')
-    plt.show()
+    output = 'img_fit_%s_%s_allportions.png'%tag_tuple
+    output2 = 'img_pars_%s_%s_offsets.png'%tag_tuple
+    fig.savefig(output, dpi=500, bbox_inches='tight')
+    fig2.savefig(output2, dpi=500, bbox_inches='tight')
+    print ('Saving pca fit on',output)
+    print ('Saving pca pars on',output2)
+    #plt.show()

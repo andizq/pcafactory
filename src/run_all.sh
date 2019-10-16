@@ -6,7 +6,7 @@ case $1 in
 	filename="make_moment.py"
 	;;
     "dendrogram")
-	filename="dendrogram_moment.py"
+	filename="make_dendrogram.py"
 	;;
     "peaks")
 	filename="get_peaks_leaves.py"
@@ -15,7 +15,7 @@ case $1 in
 	filename="write_portion.py"
 	;;
     "fit")
-	filename="new_fit_pca_points.py"
+	filename="make_fit_pca.py"
 	;;
     *)
 esac
