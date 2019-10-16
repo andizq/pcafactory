@@ -130,10 +130,10 @@ The script executed by *all.sh* is determined by the accompanying argument in th
 
    sh $PCAFACTORY/all.sh fit
 
-.. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_fit_jypxl_faceon_allportions.pdf?raw=true
+.. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_fit_jypxl_faceon_allportions.png?raw=true
    :width: 10%
 
-.. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_pars_jypxl_faceon_offsets.pdf?raw=true
+.. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_pars_jypxl_faceon_offsets.png?raw=true
    :width: 10%
 
 
