@@ -81,29 +81,29 @@ The resulting line cubes (.fits) can be found on the data repository for this ex
    python $PCAFACTORY/make_moment.py -i edgeon_phi90
    python $PCAFACTORY/make_moment.py -i edgeon_phi90 -u tau
 
-Alternatively, the bash script *all.sh* included in the *src/* folder runs the script for all the inclinations and units using the -i and -u flags. 
+Alternatively, the bash script *run_all.sh* included in the *src/* folder runs the script for all the inclinations and units using the -i and -u flags. 
 
 .. code-block:: bash
    
-   sh $PCAFACTORY/all.sh moment
+   sh $PCAFACTORY/run_all.sh moment
 
-The script executed by *all.sh* is determined by the accompanying argument in the command. You can use one from [moment, dendrogram, peaks, write, fit].  
+The script executed by *run_all.sh* is determined by the accompanying argument in the command. You can use one from [moment, dendrogram, peaks, write, fit].  
 
 8. Compute dendrograms on moment 0 maps to extract smaller-scale cloud portions.
 
 .. code-block:: bash
 
-   sh $PCAFACTORY/all.sh dendrogram
+   sh $PCAFACTORY/run_all.sh dendrogram
 
 .. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_moment0dendro_jypxl_faceon.png?raw=true
    :width: 30%
 
 
-9. Get coordinates from moment 0 peaks in dendrogram leaves (30 pc wide boxes will be centred on these peaks later on for further analysis). Also, the following script creates the folder ./portions_moment0 where information from cloud portions, colour codes, PCA outputs and figures will stored. 
+9. The following script finds the coordinates from moment 0 peaks in dendrogram leaves and centres 30 pc wide boxes on them for the principal component analysis later on. It creates the folder *./portions_moment0* to store information from these cloud portion boxes and from colour codes.
 
 .. code-block:: bash
 
-   sh $PCAFACTORY/all.sh peaks
+   sh $PCAFACTORY/run_all.sh peaks
 
 .. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_moment0_jypxl_faceon.png?raw=true
    :width: 30%
@@ -112,10 +112,10 @@ The script executed by *all.sh* is determined by the accompanying argument in th
 
 .. code-block:: bash
 
-   sh $PCAFACTORY/all.sh write
+   sh $PCAFACTORY/run_all.sh write
    cd portions_moment0
 
-11. Run the principal component analysis (PCA) both for cloud portions and the cloud complex as a whole, and store the (PCA-derived) velocity fluctuations (dv) and spatial scales (l) in data files.
+11. Run the principal component analysis (PCA) both for the cloud portions and for the cloud complex as a whole, and store the (PCA-derived) velocity fluctuations (dv) and spatial scales (l) in data files.
 
 .. code-block:: bash
 
@@ -128,7 +128,7 @@ The script executed by *all.sh* is determined by the accompanying argument in th
 
 .. code-block:: bash
 
-   sh $PCAFACTORY/all.sh fit
+   sh $PCAFACTORY/run_all.sh fit
 
 .. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_fit_jypxl_faceon_allportions.png?raw=true
    :width: 10%
