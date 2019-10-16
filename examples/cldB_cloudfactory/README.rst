@@ -96,8 +96,9 @@ The script executed by *run_all.sh* is determined by the accompanying argument i
    sh $PCAFACTORY/run_all.sh dendrogram
 
 .. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_moment0dendro_jypxl_faceon.png?raw=true
-   :width: 30%
 
+.. include:: Subgrids/cube_products/pars_dendrogram.txt
+   :literal:
 
 9. The following script finds the coordinates from moment 0 peaks in dendrogram leaves and centres 30 pc wide boxes on them for the principal component analysis later on. It creates the folder *./portions_moment0* to store information from these cloud portion boxes and from colour codes.
 
@@ -106,9 +107,9 @@ The script executed by *run_all.sh* is determined by the accompanying argument i
    sh $PCAFACTORY/run_all.sh peaks
 
 .. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_moment0_jypxl_faceon.png?raw=true
-   :width: 30%
 
-10. Write cloud portions (30 pc wide boxes) in folder ./portions_moment0
+
+10. Extract cloud portion cubes from the cloud complex cube (.fits) into *./portions_moment0* using the 30 pc wide boxes locations
 
 .. code-block:: bash
 
@@ -131,10 +132,8 @@ The script executed by *run_all.sh* is determined by the accompanying argument i
    sh $PCAFACTORY/run_all.sh fit
 
 .. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_fit_jypxl_faceon_allportions.png?raw=true
-   :width: 10%
 
 .. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_pars_jypxl_faceon_offsets.png?raw=true
-   :width: 10%
 
 
 #python pca_summary.py  ??
