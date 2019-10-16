@@ -98,8 +98,9 @@ The script executed by *run_all.sh* is determined by the accompanying argument i
 .. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_moment0dendro_jypxl_faceon.png?raw=true
 
 .. note::
+
    The file *pars_dendrogram.txt* allows easily handling dendrogram parameters for all cloud orientations and/or cube units. 
-   The script *make_dendrogram.py* (executed by *run_all.sh dendrogram*) reads this file and passes the parameters to the function Dendrogram.compute() from `astrodendro <https://dendrograms.readthedocs.io>`_   
+   The script *make_dendrogram.py* (executed by **run_all.sh dendrogram**) reads this file and passes the parameters to the function Dendrogram.compute() from `astrodendro <https://dendrograms.readthedocs.io>`_   
 :: 
 
    # inclination   delta_factor    min_npix 
@@ -135,7 +136,7 @@ The script executed by *run_all.sh* is determined by the accompanying argument i
    sh $PCAFACTORY/run_pca.sh edgeon_phi90 tau
 
 .. note::
-   The file *pars_pca.txt* controls the parameter *min_eigval* for cloud portions and the cloud complex as a whole for all orientations and/or cube units. The parameter *min_eigval* sets the minimum percentage of variance considered for the PCA study. High percentages are ideal to keep as much information as possible but too high values may lead to clustering of PCA-derived scales around spatial/spectral resolution limits. See further details of this parameter on `turbustat.statistics.PCA https://turbustat.readthedocs.io/en/latest/api/turbustat.statistics.PCA.html#turbustat.statistics.PCA.compute_pca`_
+   The file *pars_pca.txt* controls the parameter *min_eigval* for cloud portions and the cloud complex as a whole for all orientations and/or cube units. The parameter *min_eigval* sets the minimum percentage of variance considered for the PCA study. High percentages are ideal to keep as much information as possible but too high values may lead to clustering of PCA-derived scales around spatial/spectral resolution limits. See further details of this parameter on `turbustat.statistics.PCA <https://turbustat.readthedocs.io/en/latest/api/turbustat.statistics.PCA.html#turbustat.statistics.PCA.compute_pca>`_
   
 ::
 
@@ -157,7 +158,7 @@ The script executed by *run_all.sh* is determined by the accompanying argument i
 .. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_pars_jypxl_faceon_offsets.png?raw=true
 
 .. note::
-   With the file *overlaped_portions.txt* you can control which cloud portions should be rejected by the fitting algorithm. Commonly, you might want to reject cloud portions that are overlaping too much or those from where the PCA-derived scales are few (which may lead to non-trustable fits).
+   With the file *overlaped_portions.txt* you can control which cloud portions will the fitting algorithm reject. Commonly, you might want to reject cloud portions that are overlaping too much or those from where the PCA-derived scales are few (which may lead to non-trustable fits).
 
 ::
 
