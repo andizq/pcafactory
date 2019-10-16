@@ -91,8 +91,15 @@ The script executed by *run_all.sh* is determined by the accompanying argument i
 
 8. Compute dendrograms on moment 0 maps to extract smaller-scale cloud portions.
 
-The file *Subgrids/cube_products/pars_dendrogram.txt* allows handling some dendrogram parameters (in the Dendrogram.compute() function) for each cloud orientation and unit. 
+.. code-block:: bash
 
+   sh $PCAFACTORY/run_all.sh dendrogram
+
+.. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_moment0dendro_jypxl_faceon.png?raw=true
+
+.. note::
+   The file *pars_dendrogram.txt* allows easily handling dendrogram parameters for all cloud orientations and/or cube units. 
+   The script *make_dendrogram.py* (executed by *run_all.sh dendrogram*) reads this file and passes the parameters to the function Dendrogram.compute() from `astrodendro <https://dendrograms.readthedocs.io>`_   
 :: 
 
    # inclination   delta_factor    min_npix 
@@ -101,12 +108,6 @@ The file *Subgrids/cube_products/pars_dendrogram.txt* allows handling some dendr
    edgeon_phi90		10	     150
    edgeon_phi90tau	1	     70
 
-
-.. code-block:: bash
-
-   sh $PCAFACTORY/run_all.sh dendrogram
-
-.. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_moment0dendro_jypxl_faceon.png?raw=true
 
 9. The following script finds the coordinates from moment 0 peaks in dendrogram leaves and centres 30 pc wide boxes on them for the principal component analysis later on. It creates the folder *./portions_moment0* to store information from these cloud portion boxes and from colour codes.
 
@@ -133,6 +134,18 @@ The file *Subgrids/cube_products/pars_dendrogram.txt* allows handling some dendr
    sh $PCAFACTORY/run_pca.sh edgeon_phi90
    sh $PCAFACTORY/run_pca.sh edgeon_phi90 tau
 
+.. note::
+   The file *pars_pca.txt* controls the parameter *min_eigval* for cloud portions and the cloud complex as a whole for all orientations and/or cube units. The parameter *min_eigval* sets the minimum percentage of variance considered for the PCA study. High percentages are ideal to keep as much information as possible but too high values may lead to clustering of PCA-derived scales around spatial/spectral resolution limits. See further details of this parameter on `turbustat.statistics.PCA https://turbustat.readthedocs.io/en/latest/api/turbustat.statistics.PCA.html#turbustat.statistics.PCA.compute_pca`_
+  
+::
+
+   # incl	min_eigval_portion	min_eigval_cloud
+   faceon		0.999		0.999
+   edgeon		0.999		0.999
+   edgeon_phi90		0.999		0.999
+   edgeon_phi90tau 	0.999		0.999
+
+
 12. Read the PCA-derived scales to compute the cloud complex structure functions and show the resulting figures.
 
 .. code-block:: bash
@@ -143,5 +156,15 @@ The file *Subgrids/cube_products/pars_dendrogram.txt* allows handling some dendr
 
 .. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_pars_jypxl_faceon_offsets.png?raw=true
 
+.. note::
+   With the file *overlaped_portions.txt* you can control which cloud portions should be rejected by the fitting algorithm. Commonly, you might want to reject cloud portions that are overlaping too much or those from where the PCA-derived scales are few (which may lead to non-trustable fits).
 
-#python pca_summary.py  ??
+::
+
+   #Overlaping portions to reject. if None put -1
+   faceon	 	0,5,7,11
+   edgeon	 	9,5,2,3,7
+   edgeon_phi90	 	0,3,5
+   edgeon_phi90tau	 2,4
+
+(Missing: docs for plot_line_portions.py, plot_column.py, pca_summary.py)
