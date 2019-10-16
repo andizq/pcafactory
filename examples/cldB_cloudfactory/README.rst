@@ -91,14 +91,13 @@ The script executed by *run_all.sh* is determined by the accompanying argument i
 
 8. Compute dendrograms on moment 0 maps to extract smaller-scale cloud portions.
 
-.. include:: Subgrids/cube_products/pars_dendrogram.txt
-   :literal: 1
-
 .. code-block:: bash
 
    sh $PCAFACTORY/run_all.sh dendrogram
 
 .. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_moment0dendro_jypxl_faceon.png?raw=true
+
+.. include:: Subgrids/cube_products/pars_dendrogram.txt
 
 
 9. The following script finds the coordinates from moment 0 peaks in dendrogram leaves and centres 30 pc wide boxes on them for the principal component analysis later on. It creates the folder *./portions_moment0* to store information from these cloud portion boxes and from colour codes.
