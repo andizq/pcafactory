@@ -25,6 +25,7 @@ print (pars[0][id])
 #**************************************************
 #COMPUTING DENDROGRAM
 #**************************************************
+hdu.data *= 1e-3
 mean_val = hdu.data.mean() 
 min_val = hdu.data.mean()/10
 d = Dendrogram.compute(hdu.data.squeeze(), min_value=min_val, min_delta=float(pars[1][id])*mean_val, min_npix=int(pars[2][id]))
@@ -90,8 +91,9 @@ except ImportError:
     
 fig = aplpy.FITSFigure(hdu, figsize=(8, 6))
 fig.add_label(0.5, 1.10, 'Moment 0\nFrom $^{12}CO$ $J=1-0$', relative=True, size = 12)
-fig.show_colorscale(cmap='viridis_r', vmin = mean_val/10, stretch='linear',
-                    vmax = mean_val*2
+fig.show_colorscale(cmap='viridis_r', stretch='linear',
+                    vmin = 0*mean_val/10.,
+                    vmax = mean_val + 2*np.std(hdu.data[hdu.data>1])
                     )
 fig.add_colorbar()
 fig.colorbar.set_axis_label_text(r'M$_0$ (%s km/s)'%unit_dict[args.unit])
