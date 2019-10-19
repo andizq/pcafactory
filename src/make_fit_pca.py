@@ -273,6 +273,7 @@ if __name__ == '__main__':
     data_size = np.zeros(nportions, dtype=np.int)
     ids_bool = np.zeros(nportions, dtype=np.bool)
     file_overlaped = np.loadtxt('overlaped_portions.txt', dtype=np.str, delimiter=None)
+    if file_overlaped.ndim == 1: file_overlaped = file_overlaped[None]
     if args.unit=='jypxl': overlaped_portions = np.array(file_overlaped[:,1][file_overlaped[:,0] == args.incl][0].split(',')).astype(np.int32)
     else: overlaped_portions = np.array(file_overlaped[:,1][file_overlaped[:,0] == args.incl+args.unit][0].split(',')).astype(np.int32)
 
@@ -348,20 +349,22 @@ if __name__ == '__main__':
     coeff_portions = np.asarray(coeff_portions)
     index_portions = np.asarray(index_portions)
 
-    fit_heyer = func_heyer(data_sim)
     #ax1.set_title(get_cloud_history(add=[args.incl]), fontsize=SMALL_SIZE)
-    ax1.set_xlim(np.min(data_sim), np.max(data_sim))
-    ax1.set_ylim(np.min(fit_heyer)-1.0, np.max(fit_heyer)+0.9)
     plot_ax1_heyer(ax1,data_sim)
-    popt_m, popt_std = plot_ax1_fit(ax1,data_sim,popt,pcov, show_eq=True, label='Mixed fit', ls='--', lw=2.2)
+    popt_m, popt_std = plot_ax1_fit(ax1,data_sim,popt,pcov, show_eq=True, label='Mixed fit', ls='--', lw=2.2) #popt_m[0]: coeff in log, popt_m[1]: slope
     poptc_m, poptc_std = plot_ax1_fit(ax1,data_sim,popt_c,pcov_c, show_eq=False, ls='--', lw=1.5, 
                                       color='darkgreen', alpha=1.0, fill_alpha=0.07, label='Complex fit')
-    plot_ax1_scatter(ax1,x,y,x_err,y_err, colors=colors, ecolors=colors, alpha_errbar=0.28-0.08*(ndata/100.))
+    fit_heyer = func_heyer(data_sim)
+    ax1.set_xlim(np.min(data_sim), np.max(data_sim))
+    if popt_m[0] > np.log10(0.87): ax1.set_ylim(np.min(fit_heyer)-1.0, popt_m[0]+2)
+    else: ax1.set_ylim(np.min(fit_heyer)-1.0, np.max(fit_heyer)+0.9)
+
+    plot_ax1_scatter(ax1,x,y,x_err,y_err, colors=colors, ecolors=colors, alpha_errbar=abs(0.28-0.08*(ndata/100.)))
     plot_ax1_scatter(ax1,x_c,y_c,x_err_c,y_err_c, colors=color_cloud, s=80, marker='X', alpha_errbar=0.35-0.08*(ndata_cloud/20.))
     ax1.scatter(None,None, marker='o', facecolors='white', edgecolors='black', s=50, label='PCA-clouds')
     ax1.scatter(None,None, marker='X', facecolors=color_cloud, edgecolors='black', s=80, label='PCA-complex(%2d)'%ndata_cloud)
     ax1.legend(loc='lower right', fontsize = MEDIUM_SIZE-3, borderpad=None, labelspacing=0.3, handlelength=1.7)    
-    convert_ticks(ax1)
+    convert_ticks(ax1) #Labels from log to cart
     plot_ax2_rejected(ax2)
     plot_ax3_pie(ax3, ndata)
     plot_ax4_mean(ax4, fit_pars_portions, zorder=3) 

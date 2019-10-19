@@ -15,7 +15,7 @@ parser.add_argument('-i', '--incl', default='faceon', help="Image inclination ['
 parser.add_argument('-f', '--folder', default='../../', help="Location of the original (whole) cube")
 parser.add_argument('-u', '--unit', default='jypxl', help="Intensity units [jypxl, kelvin, tau]")
 parser.add_argument('-n', '--portionid', default=0, type=int, help='Name id of the image portion.')
-parser.add_argument('-c', '--cloud', default=0, type=int, help='Compute PCA from the entire region.')
+parser.add_argument('-c', '--cloud', default=0, type=int, help='Compute PCA from the entire region [False, True].')
 parser.add_argument('-R', '--rtmode', default='nonLTE', help="Radiative transfer mode [LTE, nonLTE]")
 #parser.add_argument('-o', '--output', help='Output name for the pca images + incl.; takes effect only if --name is set')
 
@@ -29,14 +29,16 @@ if args.cloud: cubename = args.folder+"img_CO_J1-0_%s_%s_%s.fits"%(args.rtmode, 
 else: cubename = "./img_%s_%s_portion_%03d.fits"%(args.unit, args.incl, args.portionid)
 
 try:
-    pars = np.loadtxt('pars_pca.txt', dtype=np.str, delimiter=None, unpack=True) 
-    if args.unit == 'jypxl': id = pars[0] == args.incl 
+    pars = np.loadtxt('pars_pca.txt', dtype=np.str, delimiter=None, unpack=True)
+    if args.unit == 'jypxl': id = pars[0] == args.incl
     else: id = pars[0] == args.incl+args.unit
     if args.cloud: col = 2
     else: col = 1
-    min_eigval = float(pars[col][id])
+    if pars.ndim==1: min_eigval = float(pars[col])
+    else: min_eigval = float(pars[col][id])
 except OSError:
     min_eigval = 0.99
+
 print ("eigen_cut_method = 'proportion', min_eigval =", min_eigval)
 #**************************
 #PCA ANALYSIS

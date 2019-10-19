@@ -123,28 +123,30 @@ SMALL_SIZE = 14
 MEDIUM_SIZE = 17
 BIGGER_SIZE = 20
 
-fig, ax = plt.subplots(nrows=1, subplot_kw = {'projection': w}, figsize = (8,6))
-plt.subplots_adjust(left=0.15, right=0.85, top=0.9, bottom=0.2)
-ax.grid()
-ax.set_title('Moment 0 map\n'+ r'$^{12}$CO J=1-0', fontsize = BIGGER_SIZE, loc='right')
-
-im = ax.imshow(hdu.data, origin='lower', cmap='pink_r', 
-               #vmax = hdu.data.max()/2.
-               vmin = 0*mean_val/10.,
-               vmax = mean_val + 2*np.std(hdu.data[hdu.data>1])
-               )
-
-ax.tick_params(which='both', direction='in', axis='y', 
-               labelleft=False, labelright=True, left=True, right=True)
-ax.tick_params(axis='both', labelsize=SMALL_SIZE, width=1.3, length=6)
-
 color_dict = dict(colors.BASE_COLORS, **colors.CSS4_COLORS)
 color_dict.pop(u'cyan'); color_dict.pop(u'c')
 color_names = list(color_dict)
 
 cmp = cm.get_cmap('nipy_spectral')
 
-def plot_colorbar(x0):
+
+def plot_main():
+    fig, ax = plt.subplots(nrows=1, subplot_kw = {'projection': w}, figsize = (8,6))
+    plt.subplots_adjust(left=0.15, right=0.85, top=0.9, bottom=0.2)
+    ax.grid()
+    ax.set_title('Moment 0 map\n'+ r'$^{12}$CO J=1-0', fontsize = BIGGER_SIZE, loc='right')
+
+    im = ax.imshow(hdu.data, origin='lower', cmap='pink_r',                    
+                   vmin = 0*mean_val/10.,
+                   vmax = mean_val + 2*np.std(hdu.data[hdu.data>1])
+                   )
+
+    ax.tick_params(which='both', direction='in', axis='y', 
+                   labelleft=False, labelright=True, left=True, right=True)
+    ax.tick_params(axis='both', labelsize=SMALL_SIZE, width=1.3, length=6)
+    return fig, ax, im
+    
+def plot_colorbar(fig, ax, im, x0):
     x0 = ax.get_position().x0 + 0.2*x0
     dx = ax.get_position().xmax - 0.085 - x0
     ax_cbar = fig.add_axes([x0,0.07,dx,0.05])
@@ -152,7 +154,7 @@ def plot_colorbar(x0):
     cbar.ax.tick_params(labelsize=SMALL_SIZE)
     cbar.set_label(r'M$_0$ (%s km/s)'%unit_dict[args.unit], x = 0.5, fontsize=MEDIUM_SIZE-2)
 
-def plot_leaves():
+def plot_leaves(ax):
     leafc = 'red'
     ax.contour(mask_hdu.data, colors=leafc, linewidths=1.0)    
     plt.plot([],[],color=leafc,label='Leaves')
@@ -179,7 +181,7 @@ def write_boxes_colors(pcolors, file = folder_reg+'clouds_colors_%s_%s.txt'%tag_
 def write_boxes_rgba(pcolors, file = folder_reg+'clouds_colors_%s_%s.txt'%tag_tuple):
     np.savetxt(file, pcolors)
     
-def plot_boxes_peaks(peak_pos, peak_pix):
+def plot_boxes_peaks(ax, peak_pos, peak_pix):
     width_phys = 30. #pc
     width = width_phys * pc2au #dx pc in au
     height = width_phys * pc2au #dy pc in au
@@ -228,7 +230,7 @@ def plot_boxes_peaks(peak_pos, peak_pix):
     write_boxes_rgba(picked_colors)
     return nboxes
 
-def plot_peaks_leaves():
+def plot_peaks_leaves(ax):
     peak_pos, peak_pix = [], []
     for leaf in d.leaves: 
         y_peak, x_peak = leaf.get_peak()[0]
@@ -237,10 +239,10 @@ def plot_peaks_leaves():
     #peak_pos.append(fig.pixel2world(y_peak/hdu.shape[0], x_peak/hdu.shape[1]))
     peak_pos = np.array(peak_pos)
     
-    nboxes = plot_boxes_peaks(peak_pos, peak_pix)
+    nboxes = plot_boxes_peaks(ax, peak_pos, peak_pix)
     return nboxes
 
-def plot_branches():
+def plot_branches(ax):
     if num_conts > 1: 
         branchc = ['navy'] + ['lightblue'] * (num_conts - 1)
         branchls = [':'] + ['-'] * (num_conts - 1)
@@ -260,21 +262,23 @@ def plot_branches():
             ax.plot([],[],color=branchc[1],
                      label='Branches: {}'.format( ('{bran[%d].idx}, '*(num_conts - 1)%tuple(np.arange(1,num_conts))).format(bran = minlvl_branches))[:-2] )
 
-def plot_legend(nboxes):
+def plot_legend(ax, nboxes):
     ncols = int(nboxes/16.)+1
-    ax.legend(ncol = ncols, framealpha = 0.9, fontsize = SMALL_SIZE, fancybox = True, loc=(-0.39*(ncols-1)-0.35,0))
+    ax.legend(ncol = ncols, framealpha = 0.9, fontsize = SMALL_SIZE, fancybox = True, loc=(-0.4*(ncols-1)-0.42,0))
     ax.text(0.03,0.93, r'$\overline{\rmM}_0$=%.1f'%(mean_val), fontsize=SMALL_SIZE, transform=ax.transAxes)
     return ncols
-def plot_dendro():
-    nboxes = plot_peaks_leaves(); 
-    ncols = plot_legend(nboxes)
+
+def plot_all():
+    fig, ax, im = plot_main()
+    nboxes = plot_peaks_leaves(ax)
+    ncols = plot_legend(ax, nboxes)
     x0 = -ncols*0.275
-    plot_colorbar(x0)
+    plot_colorbar(fig, ax, im, x0)
     output = "img_moment0_%s_%s.png"%tag_tuple
     plt.savefig(output, dpi = 500, bbox_inches='tight')
-    #plot_leaves(); plot_branches(); plot_legend(nboxes)
+    #fig2, ax2, im2 = plot_main(); 
+    #plot_leaves(ax2); plot_branches(ax2); plot_colorbar(fig2, ax2, im2, x0); plot_legend(ax2, 1)
     #plt.savefig("img_moment0dendro_%s_%s.png"%tag_tuple, dpi = 100, bbox_inches='tight')
     print ('Saving figure on', output)
         
-plot_dendro()
-#plt.show()
+plot_all()
