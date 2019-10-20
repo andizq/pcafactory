@@ -9,6 +9,8 @@ The PCAFACTORY package is presented in the Paper II of the Cloud Factory's serie
 
 (Include bibtex when available).
 
+.. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_fit_jypxl_faceon_allportions.png?raw=true
+
 Requirements
 ------------
 
