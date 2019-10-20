@@ -95,6 +95,7 @@ mpl.rcParams['axes.linewidth'] = 1.8
 mpl.rcParams['xtick.major.width']=1.3
 mpl.rcParams['ytick.major.width']=1.3
 
+TINY_SIZE = 10
 SMALL_SIZE = 14
 MEDIUM_SIZE = 17
 BIGGER_SIZE = 20
@@ -105,7 +106,7 @@ def plot_main():
     ax.grid()
     ax.set_title('Moment 0 map\n'+ r'$^{12}$CO J=1-0', fontsize = BIGGER_SIZE, loc='right')
 
-    im = ax.imshow(hdu.data, origin='lower', cmap='pink_r', 
+    im = ax.imshow(hdu.data, origin='lower', cmap='viridis_r', 
                    vmin = 0*mean_val/10.,
                    vmax = np.mean(hdu.data[hdu.data > 1]) + 2*np.std(hdu.data[hdu.data>1])
                    )
@@ -143,13 +144,13 @@ def plot_branches(ax):
                                           linewidths=0.8, origin='lower')
 
     if num_conts > 0:
-        ax.plot([],[], branchls[0], color=branchc[0],label='Branch: {bran.idx}'.format(bran = minlvl_branches[0]))
+        ax.plot([],[], branchls[0], color=branchc[0],label='Branch id: {bran.idx}'.format(bran = minlvl_branches[0]))
         if num_conts > 1:
             ax.plot([],[],color=branchc[1],
-                     label='Branches: {}'.format( ('{bran[%d].idx}, '*(num_conts - 1)%tuple(np.arange(1,num_conts))).format(bran = minlvl_branches))[:-2] )
+                     label='Branch ids: {}'.format( ('\n{bran[%d].idx}, '*(num_conts - 1) % tuple(np.arange(1,num_conts))).format(bran = minlvl_branches))[:-2] )
 
 def plot_legend(ax):
-    ax.legend(loc=(-0.4,0.02), framealpha = 0.97, fontsize = SMALL_SIZE, fancybox = True)
+    ax.legend(loc=(-0.42,0.02), framealpha = 0.97, fontsize = TINY_SIZE+1, fancybox = True)
 
 def plot_dendro():
     fig, ax, im = plot_main()
