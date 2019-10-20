@@ -11,9 +11,8 @@ from sf3dmodels.utils import (constants as sfc, units as sfu)
 from sf3dmodels.arepo.units import *
 import sf3dmodels.rt as rt
 
-from arepy.read_write import binary_read as rsnap
-from arepy.read_write import binary_write as wsnap
-from arepy.utility import cgs_constants as cgs
+import binary_read as rsnap
+import cgs_constants as cgs
 
 from copy import copy, deepcopy
 import os
@@ -28,7 +27,7 @@ random_choice = None #If integer, considers only a (random) smaller portion from
 #******************************
 #PATH TO SNAPSHOT
 #******************************
-snap = '/Users/andizq/andizq.github.io/pcafactory-data/examples-data/cldB_cloudfactory/Restest_extracted_001_240'
+snap = 'Restest_extracted_001_240'
 
 #******************************
 #AREPO 3D-grids (not projected)
