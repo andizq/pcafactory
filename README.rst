@@ -1,8 +1,8 @@
 pcafactory
 ----------
 
-The PCAFACTORY package makes easier the extraction of turbulent properties from (M)HD simulations or real observations of the interstellar medium (ISM). 
-To do so, the PCAFACTORY collects features from TurbuStat, sf3dmodels, astrodendro and LIME in order to retrieve pseudo-structure functions from 
+The **pcafactory** package makes easier the extraction of dynamical signatures from (M)HD simulations or real observations of the interstellar medium (ISM). 
+To do so, the **pcafactory** collects features from TurbuStat, sf3dmodels, astrodendro and LIME in order to retrieve pseudo-structure functions from 
 the input region using principal component analysis (and full radiative transfer techniques if necessary). 
 
 The PCAFACTORY package is presented in the Paper II of the Cloud Factory's series. Please refer to that work if this package is useful for your research.
@@ -31,7 +31,7 @@ if you don't have one:
 
    git clone https://github.com/andizq/pcafactory.git
 
-For simplicity in future executions include the path to the pcafactory/src files in your ~/.bashrc file (~/.profile or ~/.bash_profile for Mac users). It looks like this in my case:
+For simplicity in future executions, create a variable with the path to the pcafactory/src files in your ~/.bashrc file (~/.profile or ~/.bash_profile for Mac users). It looks like this in my case:
 
 .. code-block:: bash
 
