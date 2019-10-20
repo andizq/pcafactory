@@ -1,4 +1,3 @@
-(Under development)
 
 Cloud Complex description
 -------------------------
