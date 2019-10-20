@@ -33,7 +33,7 @@ if you don't have one:
 
    git clone https://github.com/andizq/pcafactory.git
 
-For simplicity in future executions, create a variable with the path to the pcafactory/src files in your ~/.bashrc file (~/.profile or ~/.bash_profile for Mac users). It looks like this in my case:
+For simplicity in future executions, create a variable with the path to the pcafactory/src files in your ~/.bashrc file (~/.profile or ~/.bash_profile for Mac users). For example:
 
 .. code-block:: bash
 
