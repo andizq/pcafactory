@@ -100,7 +100,7 @@ def get_prop_dicts(id_pos):
 
     dens_3d = data['rho'][id_pos] * udensity / ((1. + 4.0 * xHe) * cgs.mp) * 1e6 #kg/m3 --> Number density of H nucleons 
     dens_H2 = dens_3d*data['chem'][:,0][id_pos]
-    dens_Hplus = dens_3d*data['chem'][:,1][id_pos],
+    dens_Hplus = dens_3d*data['chem'][:,1][id_pos]
     coords = ['x','y','z']
     mean_vel = [np.mean(data['vel'][:,i][id_pos]) for i in range(3)]
     vel_3d = Struct( **{coords[i]: (data['vel'][:,i][id_pos] - mean_vel[i]) * uvel / 100. for i in range(3)} )
