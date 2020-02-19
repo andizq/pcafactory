@@ -141,7 +141,7 @@ id_pos = unique_cells.mergemass() #This function returns the indices from non-tw
 
 if random_choice is not None:
     id_pos_0 = id_pos
-    id_pos = np.random.choice(id_pos, size=random_choice)
+    id_pos = np.random.choice(id_pos, size=random_choice, replace=False)
 
 #************
 #GRID OBJECT

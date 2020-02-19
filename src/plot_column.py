@@ -84,7 +84,7 @@ def do_overlap():
 
     sizex = sizey = sizez = 0.5*np.max(pos_max-pos_min) * ulength / 100.
     #print (sizex, sizey, sizez)
-    Nx = Ny = Nz = 250
+    Nx = Ny = Nz = 300
     GRID = Model.grid([sizex,sizey,sizez], [Nx,Ny,Nz], include_zero=False)#, rt_code='radmc3d')    
     columns = ['id', 'x', 'y', 'z', 'dens_H2', 'dens_H', 'dens_Hplus', 'temp_gas',
                'temp_dust', 'vel_x', 'vel_y', 'vel_z', 'abundance', 'gtdratio',
@@ -132,8 +132,8 @@ BIGGER_SIZE = 22
 matplotlib.rc('font', size=BIGGER_SIZE)          # controls default text sizes
 matplotlib.rc('axes', titlesize=MEDIUM_SIZE)     # fontsize of the axes title
 matplotlib.rc('axes', labelsize=BIGGER_SIZE)    # fontsize of the x and y labels
-matplotlib.rc('xtick', labelsize=MEDIUM_SIZE)    # fontsize of the tick labels
-matplotlib.rc('ytick', labelsize=MEDIUM_SIZE)    # fontsize of the tick labels
+matplotlib.rc('xtick', labelsize=MEDIUM_SIZE+2)    # fontsize of the tick labels
+matplotlib.rc('ytick', labelsize=MEDIUM_SIZE+2)    # fontsize of the tick labels
 matplotlib.rc('legend', fontsize=MEDIUM_SIZE)    # legend fontsize
 matplotlib.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
@@ -171,7 +171,7 @@ size_inches = (11.,6.)
 #fig, ax = plt.subplots(nrows=1, figsize=size_inches)
 fig = plt.figure(figsize=size_inches)
 
-ax = fig.add_axes([0.085,0.15,0.4,(0.4)*size_inches[0]/size_inches[1]])
+ax = fig.add_axes([0.089,0.15,0.4,(0.4)*size_inches[0]/size_inches[1]])
 #fig.subplots_adjust(left=0., bottom=0.15, right=0.5, top=0.85, wspace=0.0, hspace=0.0)
 
 c0 = sizex/pc #np.max(np.abs([xyz[axis_id[0]][0], xyz[axis_id[1]][0], xyz[axis_id[0]][-1], xyz[axis_id[1]][-1]]))/pc
@@ -182,8 +182,8 @@ plot_extent = [-c0,c0,-c0,c0]
 #*********************
 #plot_T = sort_orientation(np.sum(prop3d['dens_H']*prop3d['temp_gas'], axis=axis_los)/np.sum(prop3d['dens_H'], axis=axis_los), args.incl) * GRID.step[axis_los]
 
-sink_plot = ax.scatter(*sink_pos.T[axis_id]/pc, s=40, marker='*', linewidth=0.8, facecolor='w', edgecolor='k')
-ax.text(0.02,0.94, r'N$_{\rm sinks}$=%d'%nsinks, color='w', fontsize=MEDIUM_SIZE, transform=ax.transAxes)
+sink_plot = ax.scatter(*sink_pos.T[axis_id]/pc, s=150, marker='*', linewidth=1.3, facecolor='w', edgecolor='k')
+ax.text(0.02,0.94, r'N$_{\rm cores}$=%d'%nsinks, color='w', fontsize=MEDIUM_SIZE, transform=ax.transAxes)
 
 plot_H = sort_orientation(np.sum(prop3d['dens_H'], axis=axis_los), args.incl) * GRID.step[axis_los]
 norm_H = LogNorm(vmin=0.1*np.mean(plot_H), vmax=np.max(plot_H))
@@ -191,17 +191,20 @@ img_H = ax.imshow(plot_H, cmap='plasma', norm=norm_H, origin='lower', extent=plo
 
 rt_radius = np.loadtxt('./Subgrids/pars_size_rt.txt')[0]
 lime_domain = mpatches.Circle((0,0), radius=rt_radius, ls='-', lw=2.5, ec='white', fc='none')
-ax.add_patch(lime_domain)
+#ax.add_patch(lime_domain)
 
 #***********************
 #MOLECULAR HYDROGEN 
 #***********************
-ax1 = fig.add_axes([0.61,0.25,0.31,0.31*reduce(lambda x,y: x/y, size_inches)]) #0.615
+ax1 = fig.add_axes([0.63,0.25,0.31,0.31*reduce(lambda x,y: x/y, size_inches)]) #0.615
+
+ax2 = fig.add_axes([0.52,0.33,0.23,0.23*reduce(lambda x,y: x/y, size_inches)]) #0.615
+ax3 = fig.add_axes([0.765,0.33,0.23,0.23*reduce(lambda x,y: x/y, size_inches)]) #0.615
 
 plot_H2 = sort_orientation(np.sum(prop3d['dens_H2'], axis=axis_los), args.incl) * GRID.step[axis_los]
 norm_H2 = LogNorm(vmin=0.1*np.mean(plot_H2), vmax=1*np.max(plot_H2))
 masked_H2 = masked_prop(plot_H2, factor=0.01)
-img_H2 = ax1.imshow(masked_H2, cmap='hot', norm=norm_H2, origin='lower', extent=plot_extent)
+img_H2 = ax2.imshow(masked_H2, cmap='binary', norm=norm_H2, origin='lower', extent=plot_extent)
 
 #***********************
 #CO ABUNDANCE
@@ -222,14 +225,17 @@ def fmt_func(x,pos):
     coeff = round(10**(level_exp % 1)) #10**(decimal part)
     return r'%d$\times$10$^{%d}$'%(coeff,level_exp)
 fmt = ticker.FuncFormatter(fmt_func)
-ab = ax1.contour(np.log10(plot_abund), cmap=cmap_contour, norm=norm_abund, levels = levels_contour, extent=plot_extent)
+#ab = ax3.contour(np.log10(plot_abund), cmap=cmap_contour, norm=norm_abund, levels = levels_contour, extent=plot_extent)
+norm_CO = LogNorm(vmin=0.1*np.mean(plot_abund), vmax=1*np.max(plot_abund))
+masked_CO = masked_prop(plot_abund, factor=0.01)
+img_CO = ax3.imshow(masked_CO, cmap="Blues", norm=norm_CO, origin='lower', extent=plot_extent)
 
 xdum, ydum = [[None]*num_levels]*2 
 sc = ax1.scatter(xdum,ydum, c=levels_contour, norm=norm_abund, cmap=cmap_contour)
 
 lime_domain = mpatches.Circle((0,0), radius=rt_radius, ls='--', lw=1.5, ec='k', fc='none', transform = ax1.transData)
 img_H2.set_clip_path(lime_domain)
-ax1.add_patch(lime_domain)
+#ax1.add_patch(lime_domain)
 
 
 #*****************
@@ -242,10 +248,12 @@ ax1_cbar0 = fig.add_axes([ax1_pos.x0-0.015,ax1_pos.y1+0.02,0.33,0.05])
 ax1_cbar1 = fig.add_axes([ax1_pos.x0-0.015,ax1_pos.y0-0.06,0.33,0.05]) 
 cbar00=fig.colorbar(img_H, cax=ax0_cbar0, extend='min', orientation='horizontal')
 cbar10=fig.colorbar(img_H2, cax=ax1_cbar0, extend='min', orientation='horizontal')
-cbar11=fig.colorbar(sc, cax=ax1_cbar1, extend='min', ticks=levels_contour, orientation='horizontal', format=fmt)
+#cbar11=fig.colorbar(sc, cax=ax1_cbar1, extend='min', ticks=levels_contour, orientation='horizontal', format=fmt)
+cbar11=fig.colorbar(img_CO, cax=ax1_cbar1, extend='min', orientation='horizontal')
 cbar00.ax.tick_params(axis='x', which='both', direction='out', top=True, bottom=False, labeltop=True, labelbottom=False)
 cbar10.ax.tick_params(axis='x', which='both', direction='out', top=True, bottom=False, labeltop=True, labelbottom=False)
-cbar11.ax.tick_params(axis='x', which='both', direction='out', top=False, bottom=True, labeltop=False, labelbottom=True, labelrotation=45, labelsize=12)
+#cbar11.ax.tick_params(axis='x', which='both', direction='out', top=False, bottom=True, labeltop=False, labelbottom=True, labelrotation=45, labelsize=12)
+cbar11.ax.tick_params(axis='x', which='both', direction='out', top=False, bottom=True, labeltop=False, labelbottom=True)
 cbar00.set_label(r'$\Sigma_{\rm H}$')#, labelpad=-45, x=0)
 cbar10.set_label(r'$\Sigma_{\rm H_2}$')#, labelpad=10, x=0)
 cbar11.set_label(r'$\Sigma_{\rm CO}$'+'\n[cm$^{-2}]$')#, labelpad=-90, x=0)
@@ -255,10 +263,17 @@ cbar11.ax.xaxis.set_label_coords(-0.08, 1.0)
 
 ax_labels = ['x','y','z']
 ax.set_xlabel(ax_labels[axis_id[0]] + '/pc')
-ax.set_ylabel(ax_labels[axis_id[1]])
-ax1.text(1.15,1.20, get_cloud_history(add=[args.incl])+r' $-$ RT radius %d pc'%rt_radius, fontsize=SMALL_SIZE-2.7, transform=ax1.transAxes, rotation=-90)
+ax.set_ylabel(ax_labels[axis_id[1]] + '/pc')
+#ax1.text(1.15,1.20, get_cloud_history(add=[args.incl])+r' $-$ RT radius %d pc'%rt_radius, fontsize=SMALL_SIZE-2.7, transform=ax1.transAxes, rotation=-90)
 #ax1.set_facecolor('k')
 ax1.axis('off')
+
+ax2.tick_params(which='both', direction='out', labelbottom=False, labelleft=False, bottom=False, left=False)
+ax3.tick_params(which='both', direction='out', labelbottom=False, labelleft=False, bottom=False, left=False)
+#ax2.axis('off')
+#ax3.axis('off')
+
+
 for spine in ax1.spines: ax1.spines[spine].set_visible(False) #Turning off the spines does not delete axis labels
 ax1.tick_params(axis='both', left=False, bottom=False)
 fig.savefig('column_densities_%s.pdf'%args.incl, bbox_inches=None, dpi=500)
@@ -271,7 +286,7 @@ print ('-------------------------------------------------\n---------------------
 
 #RUNNING IT:
 #ipython3
-#file = %env TOOLS_PCA 
+#file = %env PCAFACTORY
 #file += 'plot_column.py'
 #run -i {file} -g 1 #to make the 3D grid and save it into memory
 #run -i {file} -g 0 #to only plot the figure

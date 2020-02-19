@@ -156,7 +156,7 @@ def plot_dendro():
     fig, ax, im = plot_main()
     x0 = -0.275
     plot_colorbar(fig, ax, im, x0)
-    plot_leaves(ax); plot_branches(ax); plot_legend(ax)
+    plot_leaves(ax); plot_branches(ax); plot_legend(ax); 
     output = "img_moment0dendro_%s_%s.png"%(args.unit,args.incl)
     plt.savefig(output, dpi=100, bbox_inches='tight')
     print ('Saving figure on', output)
