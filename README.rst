@@ -1,11 +1,10 @@
 pcafactory
 ----------
 
-The **pcafactory** package makes easier the extraction of dynamical signatures from (M)HD simulations or real observations of the interstellar medium (ISM). 
-To do so, the **pcafactory** collects features from TurbuStat, sf3dmodels, astrodendro and LIME in order to retrieve pseudo-structure functions from 
-the input region using principal component analysis (and full radiative transfer techniques if necessary). 
+The **pcafactory** facilitates the extraction of non-thermal kinematical signatures from the cold interstellar medium (ISM) via molecular line emission.
+To do so, the **pcafactory** collects features from TurbuStat, sf3dmodels and astrodendro in order to retrieve velocity pseudo-structure functions using principal component analysis (and full radiative transfer with LIME for gas simulations). 
 
-The PCAFACTORY package is presented in the Paper II of the Cloud Factory's series. Please refer to that work if this package is useful for your research.
+The PCAFACTORY package is presented in the Paper II of the Cloud Factory series. Please refer to that work if this package is useful for your research.
 
 (Include bibtex when available).
 

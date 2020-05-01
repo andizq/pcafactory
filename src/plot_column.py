@@ -7,11 +7,12 @@ from functools import reduce
 from arepy.read_write import binary_read as rsnap
 
 import sf3dmodels.Model as Model
-from sf3dmodels import Plot_model
+from sf3dmodels import Plot_model, rt, grid
 from sf3dmodels.utils.units import pc
 from sf3dmodels.arepo.units import *
 import sf3dmodels.grid as grid
 
+from scipy.interpolate import griddata
 from argparse import ArgumentParser
 
 parser = ArgumentParser(prog='Plot projected properties', description='Plots the 2D projection of a given set of properties')
@@ -84,22 +85,56 @@ def do_overlap():
 
     sizex = sizey = sizez = 0.5*np.max(pos_max-pos_min) * ulength / 100.
     #print (sizex, sizey, sizez)
-    Nx = Ny = Nz = 300
+    Nx = Ny = Nz = 200
     GRID = Model.grid([sizex,sizey,sizez], [Nx,Ny,Nz], include_zero=False)#, rt_code='radmc3d')    
     columns = ['id', 'x', 'y', 'z', 'dens_H2', 'dens_H', 'dens_Hplus', 'temp_gas',
                'temp_dust', 'vel_x', 'vel_y', 'vel_z', 'abundance', 'gtdratio',
                'doppler']
+    """
     overlap = grid.Overlap(GRID)
     overlap.min_values['dens_H2'] = 0.0
     newprop = overlap.fromfiles(columns, submodels=['datatab.dat'])
+    """
+
+    props2use = ['dens_H', 'dens_H2', 'abundance', 'dens_Hplus']
+    newprop = {}    
+    datatab = np.loadtxt('./Subgrids/datatab.dat')#[:-30000]    
+    header_tab = np.loadtxt('./Subgrids/header.dat')    
+    coords = np.array(GRID.XYZ).T
     
+    
+    data_prop = {} 
+    Lime = rt.Lime(GRID)     
+    for prop in props2use:
+        column, = np.where(Lime.sf3d_header[prop]==header_tab)
+        data_prop[prop] = datatab[:,column]
+
+    subgrid = Model.Struct(XYZ = [datatab[:,i] for i in range(1,4)], NPoints=len(datatab))
+    fill = grid.fillgrid.Random(subgrid)
+    fill_rand = fill.spherical(data_prop,
+                               #prop_fill = {'dens_H2': 1.0},
+                               r_min = 10*pc, r_max = np.max(subgrid.XYZ)*np.sqrt(3),
+                               n_dummy = subgrid.NPoints/2)
+    coords_sub = np.array(subgrid.XYZ).T
+    
+    for prop in props2use:
+        print (prop)
+        ind_nodummie = data_prop[prop] > 2*data_prop[prop][-1]
+        min_val = data_prop[prop][ind_nodummie].min()
+        newprop[prop] = griddata(coords_sub, data_prop[prop], coords, fill_value=0.0)#, method='nearest')
+        newprop[prop][newprop[prop] < min_val] = min_val
+
+        #newprop[prop][np.isnan(newprop[prop])] = datatab[:,column].min() #newprop[prop][np.isnan(newprop[prop])].min()
+
     sink_pos = data['pos'][ngas:] * ulength / 100 - pos_mean
+    dummy_pos.append(coords_sub[-int(subgrid.NPoints/2):])
     return GRID, sizex, newprop, sink_pos, nsinks
 
 #**********************
 #PREAMBLE
 #**********************
 if args.gridoverlap: 
+    dummy_pos = []
     GRID, sizex, newprop, sink_pos, nsinks = do_overlap()
     prop3d = {key: np.reshape(newprop[key], GRID.Nodes, order='C') for key in newprop} #Third index changes fastest (lime)
     for key_dens in ['dens_H', 'dens_H2', 'dens_Hplus']:
@@ -172,6 +207,10 @@ size_inches = (11.,6.)
 fig = plt.figure(figsize=size_inches)
 
 ax = fig.add_axes([0.089,0.15,0.4,(0.4)*size_inches[0]/size_inches[1]])
+ax1 = fig.add_axes([0.63,0.25,0.31,0.31*reduce(lambda x,y: x/y, size_inches)]) #0.615
+ax2 = fig.add_axes([0.52,0.33,0.23,0.23*reduce(lambda x,y: x/y, size_inches)]) #0.615
+ax3 = fig.add_axes([0.765,0.33,0.23,0.23*reduce(lambda x,y: x/y, size_inches)]) #0.615
+
 #fig.subplots_adjust(left=0., bottom=0.15, right=0.5, top=0.85, wspace=0.0, hspace=0.0)
 
 c0 = sizex/pc #np.max(np.abs([xyz[axis_id[0]][0], xyz[axis_id[1]][0], xyz[axis_id[0]][-1], xyz[axis_id[1]][-1]]))/pc
@@ -183,11 +222,14 @@ plot_extent = [-c0,c0,-c0,c0]
 #plot_T = sort_orientation(np.sum(prop3d['dens_H']*prop3d['temp_gas'], axis=axis_los)/np.sum(prop3d['dens_H'], axis=axis_los), args.incl) * GRID.step[axis_los]
 
 sink_plot = ax.scatter(*sink_pos.T[axis_id]/pc, s=150, marker='*', linewidth=1.3, facecolor='w', edgecolor='k')
-ax.text(0.02,0.94, r'N$_{\rm cores}$=%d'%nsinks, color='w', fontsize=MEDIUM_SIZE, transform=ax.transAxes)
+ax.text(0.02,0.94, r'N$_{\rm sinks}$=%d'%nsinks, color='k', fontsize=MEDIUM_SIZE+2, transform=ax.transAxes)
+#dummy_plot = ax.scatter(*dummy_pos[0].T[axis_id]/pc, s=0.01, marker='.', linewidth=1.3, facecolor='w', edgecolor='k')
 
 plot_H = sort_orientation(np.sum(prop3d['dens_H'], axis=axis_los), args.incl) * GRID.step[axis_los]
 norm_H = LogNorm(vmin=0.1*np.mean(plot_H), vmax=np.max(plot_H))
-img_H = ax.imshow(plot_H, cmap='plasma', norm=norm_H, origin='lower', extent=plot_extent)
+#masked_H = masked_prop(plot_H, factor=0.01)
+#plot_H = masked_H #cmap='afmhot_r'
+img_H = ax.imshow(plot_H, cmap='Greens', norm=norm_H, origin='lower', extent=plot_extent)
 
 rt_radius = np.loadtxt('./Subgrids/pars_size_rt.txt')[0]
 lime_domain = mpatches.Circle((0,0), radius=rt_radius, ls='-', lw=2.5, ec='white', fc='none')
@@ -196,10 +238,6 @@ lime_domain = mpatches.Circle((0,0), radius=rt_radius, ls='-', lw=2.5, ec='white
 #***********************
 #MOLECULAR HYDROGEN 
 #***********************
-ax1 = fig.add_axes([0.63,0.25,0.31,0.31*reduce(lambda x,y: x/y, size_inches)]) #0.615
-
-ax2 = fig.add_axes([0.52,0.33,0.23,0.23*reduce(lambda x,y: x/y, size_inches)]) #0.615
-ax3 = fig.add_axes([0.765,0.33,0.23,0.23*reduce(lambda x,y: x/y, size_inches)]) #0.615
 
 plot_H2 = sort_orientation(np.sum(prop3d['dens_H2'], axis=axis_los), args.incl) * GRID.step[axis_los]
 norm_H2 = LogNorm(vmin=0.1*np.mean(plot_H2), vmax=1*np.max(plot_H2))
@@ -255,8 +293,8 @@ cbar10.ax.tick_params(axis='x', which='both', direction='out', top=True, bottom=
 #cbar11.ax.tick_params(axis='x', which='both', direction='out', top=False, bottom=True, labeltop=False, labelbottom=True, labelrotation=45, labelsize=12)
 cbar11.ax.tick_params(axis='x', which='both', direction='out', top=False, bottom=True, labeltop=False, labelbottom=True)
 cbar00.set_label(r'$\Sigma_{\rm H}$')#, labelpad=-45, x=0)
-cbar10.set_label(r'$\Sigma_{\rm H_2}$')#, labelpad=10, x=0)
-cbar11.set_label(r'$\Sigma_{\rm CO}$'+'\n[cm$^{-2}]$')#, labelpad=-90, x=0)
+cbar10.set_label(r'$\Sigma_{\rm H_2}$'+'\n[cm$^{-2}]$')#, labelpad=10, x=0)
+cbar11.set_label(r'$\Sigma_{\rm CO}$')#, labelpad=-90, x=0)
 cbar00.ax.xaxis.set_label_coords(-0.08, 1.0)
 cbar10.ax.xaxis.set_label_coords(-0.08, 1.0)
 cbar11.ax.xaxis.set_label_coords(-0.08, 1.0)
@@ -277,11 +315,12 @@ ax3.tick_params(which='both', direction='out', labelbottom=False, labelleft=Fals
 for spine in ax1.spines: ax1.spines[spine].set_visible(False) #Turning off the spines does not delete axis labels
 ax1.tick_params(axis='both', left=False, bottom=False)
 fig.savefig('column_densities_%s.pdf'%args.incl, bbox_inches=None, dpi=500)
+print ('Showing plot...')
+print ('Ellapsed time: %.3fs' % (time.time() - t0))
 plt.show()
 #-------
 #TIMING
 #-------
-print ('Ellapsed time: %.3fs' % (time.time() - t0))
 print ('-------------------------------------------------\n-------------------------------------------------\n')
 
 #RUNNING IT:

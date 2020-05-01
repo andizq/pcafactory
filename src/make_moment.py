@@ -19,7 +19,7 @@ fn = args.folder + img_name
 out_name = 'moment0_' + img_name
 
 hdu = fits.open(fn)[0]
-hdu.header['CUNIT3'] = 'm/s'
+if hdu.header['CUNIT3'] in ['M/S', 'm/S', 'M/s']: hdu.header['CUNIT3'] = 'm/s'
 w = WCS(hdu.header)
 
 cube = SpectralCube(data=hdu.data.squeeze(), wcs=w.dropaxis(3))
