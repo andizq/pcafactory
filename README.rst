@@ -1,6 +1,8 @@
 pcafactory
 ----------
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3822718.svg)](https://doi.org/10.5281/zenodo.3822718)
+
 The **pcafactory** facilitates the extraction of non-thermal kinematical signatures from the cold interstellar medium (ISM) via molecular line emission.
 To do so, the **pcafactory** collects features from TurbuStat, sf3dmodels and astrodendro in order to retrieve velocity pseudo-structure functions using principal component analysis (and full radiative transfer with LIME for gas simulations). 
 
