@@ -4,8 +4,8 @@ pcafactory
 .. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3822718.svg
    :target: https://doi.org/10.5281/zenodo.3822718
 
-The **pcafactory** facilitates the extraction of non-thermal kinematical signatures from the cold interstellar medium (ISM) via molecular line emission.
-To do so, the **pcafactory** collects features from TurbuStat, sf3dmodels and astrodendro in order to retrieve velocity pseudo-structure functions using principal component analysis (and full radiative transfer with LIME for gas simulations). 
+The **pcafactory** facilitates the extraction of non-thermal kinematical signatures in the cold interstellar medium via molecular line emission.
+To do so, the **pcafactory** collects features from TurbuStat, sf3dmodels and astrodendro in order to retrieve velocity structure functions using principal component analysis (and full radiative transfer with LIME for gas simulations). 
 
 The PCAFACTORY package is presented in the Paper II of the Cloud Factory series. Please refer to that work if this package is useful for your research.
 
@@ -35,7 +35,7 @@ if you don't have one:
 
    git clone https://github.com/andizq/pcafactory.git
 
-For simplicity in future executions, create a variable with the path to the pcafactory/src files in your ~/.bashrc file (~/.profile or ~/.bash_profile for Mac users). For example:
+For simplicity in future executions, create a variable with the path to the pcafactory/src folder in your ~/.bashrc file (~/.profile or ~/.bash_profile for Mac users). For example:
 
 .. code-block:: bash
 

@@ -110,19 +110,21 @@ def do_overlap():
         data_prop[prop] = datatab[:,column]
 
     subgrid = Model.Struct(XYZ = [datatab[:,i] for i in range(1,4)], NPoints=len(datatab))
+
     fill = grid.fillgrid.Random(subgrid)
     fill_rand = fill.spherical(data_prop,
                                #prop_fill = {'dens_H2': 1.0},
                                r_min = 10*pc, r_max = np.max(subgrid.XYZ)*np.sqrt(3),
-                               n_dummy = subgrid.NPoints/2)
+                               n_dummy = subgrid.NPoints/3)
+                               
     coords_sub = np.array(subgrid.XYZ).T
     
     for prop in props2use:
-        print (prop)
+        print ('Merging %s ...'%prop)
         ind_nodummie = data_prop[prop] > 2*data_prop[prop][-1]
         min_val = data_prop[prop][ind_nodummie].min()
         newprop[prop] = griddata(coords_sub, data_prop[prop], coords, fill_value=0.0)#, method='nearest')
-        newprop[prop][newprop[prop] < min_val] = min_val
+        newprop[prop][newprop[prop] < min_val] = min_val #very low value, just to get rid of zeroes
 
         #newprop[prop][np.isnan(newprop[prop])] = datatab[:,column].min() #newprop[prop][np.isnan(newprop[prop])].min()
 
@@ -140,10 +142,13 @@ if args.gridoverlap:
     for key_dens in ['dens_H', 'dens_H2', 'dens_Hplus']:
         prop_tmp = prop3d[key_dens]*1e-4 #1e-4 to get cm**-2 from m**-2
         prop3d.update({key_dens: prop_tmp}) #update() instead of prop*=1e-4 to avoid repeat the operation when using the ipython memory via run -i
-  
+
+if 'Mixed' in get_cloud_history(): vfac = 0.1
+else: vfac=1  
+
 Nx,Ny,Nz = GRID.Nodes
 xyz = GRID.XYZgrid
-
+ 
 import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm, Normalize
@@ -201,6 +206,7 @@ axis_dict = {'edgeon_phi90': 0, 'edgeon': 1, 'faceon': 2}
 axis_los = axis_dict[args.incl] #line of sight axis
 axis_id = np.arange(3)
 axis_id = axis_id[axis_id != axis_los]
+#X,Y = np.meshgrid(*np.array(xyz)[axis_id]/pc)
 
 size_inches = (11.,6.)
 #fig, ax = plt.subplots(nrows=1, figsize=size_inches)
@@ -221,15 +227,16 @@ plot_extent = [-c0,c0,-c0,c0]
 #*********************
 #plot_T = sort_orientation(np.sum(prop3d['dens_H']*prop3d['temp_gas'], axis=axis_los)/np.sum(prop3d['dens_H'], axis=axis_los), args.incl) * GRID.step[axis_los]
 
-sink_plot = ax.scatter(*sink_pos.T[axis_id]/pc, s=150, marker='*', linewidth=1.3, facecolor='w', edgecolor='k')
+sink_plot = ax.scatter(*sink_pos.T[axis_id]/pc, s=100, marker='*', linewidth=0.3, facecolor='palegreen', edgecolor='k')
 ax.text(0.02,0.94, r'N$_{\rm sinks}$=%d'%nsinks, color='k', fontsize=MEDIUM_SIZE+2, transform=ax.transAxes)
 #dummy_plot = ax.scatter(*dummy_pos[0].T[axis_id]/pc, s=0.01, marker='.', linewidth=1.3, facecolor='w', edgecolor='k')
 
 plot_H = sort_orientation(np.sum(prop3d['dens_H'], axis=axis_los), args.incl) * GRID.step[axis_los]
-norm_H = LogNorm(vmin=0.1*np.mean(plot_H), vmax=np.max(plot_H))
+norm_H = LogNorm(vmin=1e20, vmax=1e23) #vmin=0.1*np.mean(plot_H), vmax=np.max(plot_H))
 #masked_H = masked_prop(plot_H, factor=0.01)
 #plot_H = masked_H #cmap='afmhot_r'
-img_H = ax.imshow(plot_H, cmap='Greens', norm=norm_H, origin='lower', extent=plot_extent)
+#img_H = ax.contourf(X, Y, plot_H, levels=np.logspace(20,23,num=32), cmap='Greens', norm=LogNorm(), extent=plot_extent)
+img_H = ax.imshow(plot_H, cmap='binary', norm=norm_H, origin='lower', extent=plot_extent)
 
 rt_radius = np.loadtxt('./Subgrids/pars_size_rt.txt')[0]
 lime_domain = mpatches.Circle((0,0), radius=rt_radius, ls='-', lw=2.5, ec='white', fc='none')
@@ -240,7 +247,7 @@ lime_domain = mpatches.Circle((0,0), radius=rt_radius, ls='-', lw=2.5, ec='white
 #***********************
 
 plot_H2 = sort_orientation(np.sum(prop3d['dens_H2'], axis=axis_los), args.incl) * GRID.step[axis_los]
-norm_H2 = LogNorm(vmin=0.1*np.mean(plot_H2), vmax=1*np.max(plot_H2))
+norm_H2 = LogNorm(vmin=1e20, vmax=1e23) #vmin=0.1*np.mean(plot_H2), vmax=1*np.max(plot_H2))
 masked_H2 = masked_prop(plot_H2, factor=0.01)
 img_H2 = ax2.imshow(masked_H2, cmap='binary', norm=norm_H2, origin='lower', extent=plot_extent)
 
@@ -255,7 +262,7 @@ hdelta = 0.5*(levels_contour[1] - levels_contour[0])
 boundaries = np.linspace(levels_contour[0]-hdelta, levels_contour[-1]+hdelta, num=num_levels+1)
 
 norm_abund = BoundaryNorm(boundaries, num_levels)
-cmap_contour = plt.get_cmap("Greens")
+cmap_contour = plt.get_cmap("Greens") #Not used at the minute
 cmap_contour = truncate_colormap(cmap_contour, 0.3, 1.0, n=num_levels)
 
 def fmt_func(x,pos):
@@ -264,7 +271,7 @@ def fmt_func(x,pos):
     return r'%d$\times$10$^{%d}$'%(coeff,level_exp)
 fmt = ticker.FuncFormatter(fmt_func)
 #ab = ax3.contour(np.log10(plot_abund), cmap=cmap_contour, norm=norm_abund, levels = levels_contour, extent=plot_extent)
-norm_CO = LogNorm(vmin=0.1*np.mean(plot_abund), vmax=1*np.max(plot_abund))
+norm_CO = LogNorm(vmin=1e16*vfac, vmax=1e20*vfac) #vmin=0.1*np.mean(plot_abund), vmax=1*np.max(plot_abund))
 masked_CO = masked_prop(plot_abund, factor=0.01)
 img_CO = ax3.imshow(masked_CO, cmap="Blues", norm=norm_CO, origin='lower', extent=plot_extent)
 
@@ -314,7 +321,7 @@ ax3.tick_params(which='both', direction='out', labelbottom=False, labelleft=Fals
 
 for spine in ax1.spines: ax1.spines[spine].set_visible(False) #Turning off the spines does not delete axis labels
 ax1.tick_params(axis='both', left=False, bottom=False)
-fig.savefig('column_densities_%s.pdf'%args.incl, bbox_inches=None, dpi=500)
+fig.savefig('column_densities_%s.png'%args.incl, bbox_inches=None, dpi=500)
 print ('Showing plot...')
 print ('Ellapsed time: %.3fs' % (time.time() - t0))
 plt.show()
@@ -328,4 +335,4 @@ print ('-------------------------------------------------\n---------------------
 #file = %env PCAFACTORY
 #file += 'plot_column.py'
 #run -i {file} -g 1 #to make the 3D grid and save it into memory
-#run -i {file} -g 0 #to only plot the figure
+#run -i {file} -g 0 #to plot figures only, using the just saved grid
