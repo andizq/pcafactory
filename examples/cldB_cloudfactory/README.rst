@@ -2,24 +2,23 @@
 Cloud Complex description
 -------------------------
 
-* For this example we use a self-gravitating cloud complex inmersed in the galactic potential of a Milky Way-type galaxy. 
-* We let the object evolve for 2 Myr under local gravitational forces in a high resolution portion of the simulation mesh. 
-* There are random supernova explosions located all across the density distribution of the galaxy.
-* There is also chemical evolution for CO and Hydrogen species; sink particle formation (stellar systems); radiative heating and cooling and galactic differential rotation.
+* In this example we use a self-gravitating cloud complex influenced by a large-scale Milky Way-like galactic potential.
+* Local gravitational forces are turned on for 2 Myr in a high resolution portion of the simulation, from which the cloud complex is extracted. 
+* There are also supernova explosions randomly distributed all over the Galaxy.
+* There is also chemical evolution of CO and Hydrogen species; sink particles representing star-forming regions; radiative heating and cooling and galactic differential rotation.
 
-For full details on the simulation setup of this (cloud complex B) and other types of cloud complexes see the papers I and II of the Cloud Factory's series: Smith et al. subm. and Izquierdo et al. in prep (https://github.com/andizq/andizq.github.io/tree/master/pcafactory-data). 
+Find full details of the simulation setup of this (cloud complex B) and other types of cloud complexes in the Cloud Factory series of papers (I, II)
 
-Our simulations are powered by a customised version of the AREPO code (Springel+2010)
+These simulations are powered by a customised version of the AREPO code (Springel+2010)
 
 pcafactory-data repository
 --------------------------
 
-The data required for this example can be downloaded from `here <https://girder.hub.yt/#user/5da06b5868085e00016c2dee/folder/5da06ef668085e00016c2df3>`_.
-
-There you will find the following files:
+The data required for this example can be downloaded `here <https://girder.hub.yt/#user/5da06b5868085e00016c2dee/folder/5da06ef668085e00016c2df3>`_,
+where you will find the following files:
  
 * Simulation snapshot of the cloud complex.
-* 12CO J=1-0 intensity cubes: 3 line intensity cubes for different cloud orientations (face-on, edge-on phi=0, edge-on phi=90) generated with sf3dmodels and LIME (https://github.com/andizq/star-forming-regions).
+* 12CO J=1-0 intensity cubes: 3 line intensity cubes for different cloud orientations (face-on, edge-on phi=0, edge-on phi=90) generated with sf3dmodels and LIME.
 * Optical depth cube for the edge-on phi=90 case.
 
 Quick Tutorial
@@ -31,7 +30,7 @@ Quick Tutorial
 
    curl https://girder.hub.yt/api/v1/item/5da0777768085e00016c2e01/download -o Restest_extracted_001_240
 
-2. Read the snapshot and save the formatted physical information of the cloud for radiative transfer calculations.
+2. Read and clean the snapshot, and save the formatted physical information of the cloud for radiative transfer with LIME.
 
 .. code-block:: bash
       
@@ -43,8 +42,7 @@ Quick Tutorial
 .. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/3Dpoints_snap.png?raw=true
    :width: 30%
 
-
-3. The output files are stored by default in the folder ./Subgrids
+3. The output files are stored in the folder ./Subgrids by default
 
 .. code-block:: bash
    
@@ -56,15 +54,15 @@ Quick Tutorial
    
    curl https://home.strw.leidenuniv.nl/~moldata/datafiles/co.dat -o co.dat 
 
-5. We customised the LIME code to model the radiative transfer of Arepo-like (non-uniform) meshes. It is freely available `here <https://github.com/andizq/star-forming-regions>`_. The flag -S indicates that the grid was created/processed using `sf3dmodels <https://github.com/andizq/star-forming-regions>`_, and the flag -G is for non-uniform grids. The flag -n is to show log messages on the current terminal. We call 8 cores by setting -p 8 (LIME uses openmp for parallel processing). 
+5. Run our version of LIME, adapted to model radiative transfer of Arepo-like (voronoi) meshes. It is available `here <https://github.com/andizq/star-forming-regions>`_. The flag -S indicates that the grid was generated with `sf3dmodels <https://github.com/andizq/star-forming-regions>`_, and the flag -G indicates that the input grid is not uniform. The flag -n is to show log messages in terminal. We use 8 cores by setting -p 8 (LIME uses openmp for parallel processing). 
 
 .. code-block:: bash
 
    lime -nSG -p 8 rt-lime.c 
 
-The resulting line cubes (.fits) can be found on the data repository for this example.  
+The resulting line cubes (.fits) can be found in the repository prepared for this example.
 
-6. Let's create a new folder to host moment 0 maps and dendrograms.
+6. Let's create a new folder to store moment 0 maps and dendrograms.
 
 .. code-block:: bash
 
@@ -80,13 +78,13 @@ The resulting line cubes (.fits) can be found on the data repository for this ex
    python $PCAFACTORY/make_moment.py -i edgeon_phi90
    python $PCAFACTORY/make_moment.py -i edgeon_phi90 -u tau
 
-Alternatively, the bash script *run_all.sh* included in the *src/* folder runs the script for all the inclinations and units using the -i and -u flags. 
+Alternatively, the bash script *run_all.sh* included in the *src/* folder runs the script for all the inclinations and units.
 
 .. code-block:: bash
    
    sh $PCAFACTORY/run_all.sh moment
 
-The script executed by *run_all.sh* is determined by the accompanying argument in the command. You can use one from [moment, dendrogram, peaks, write, fit].  
+The script executed by *run_all.sh* is determined by the accompanying argument in the command. You can pick one from [moment, dendrogram, peaks, write, fit].  
 
 8. Compute dendrograms on moment 0 maps to extract smaller-scale cloud portions.
 
@@ -98,8 +96,8 @@ The script executed by *run_all.sh* is determined by the accompanying argument i
 
 .. note::
 
-   The file *pars_dendrogram.txt* allows easily handling dendrogram parameters for all cloud orientations and/or cube units. 
-   The script *make_dendrogram.py* (executed by **run_all.sh dendrogram**) reads this file and passes the parameters to the function Dendrogram.compute() from `astrodendro <https://dendrograms.readthedocs.io>`_   
+   The file *pars_dendrogram.txt* allows handling dendrogram parameters for all cloud orientations and/or cube units without modifying the source scripts. 
+   The script *make_dendrogram.py* (executed by **run_all.sh dendrogram**) uses these parameters to run the function Dendrogram.compute() from `astrodendro <https://dendrograms.readthedocs.io>`_   
 :: 
 
    # inclination   delta_factor    min_npix 
@@ -109,7 +107,7 @@ The script executed by *run_all.sh* is determined by the accompanying argument i
    edgeon_phi90tau	1	     70
 
 
-9. The following script finds the coordinates from moment 0 peaks in dendrogram leaves and centres 30 pc wide boxes on them for the principal component analysis later on. It creates the folder *./portions_moment0* to store information from these cloud portion boxes and from colour codes.
+9. The following script finds the coordinates of zeroth moment peaks in dendrogram leaves and centres 30 pc boxes on them for the principal component analysis. It creates the folder *./portions_moment0* to store information from these cloud portions and PCA outputs.
 
 .. code-block:: bash
 
@@ -118,7 +116,7 @@ The script executed by *run_all.sh* is determined by the accompanying argument i
 .. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_moment0_jypxl_faceon.png?raw=true
 
 
-10. Extract cloud portion cubes from the cloud complex cube (.fits) into *./portions_moment0* using the 30 pc wide boxes locations
+10. Extract cloud portion cubes from the cloud complex cube (.fits) into *./portions_moment0* using the 30 pc boxes.
 
 .. code-block:: bash
 
@@ -154,15 +152,15 @@ The script executed by *run_all.sh* is determined by the accompanying argument i
 
 .. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_fit_jypxl_faceon_allportions.png?raw=true
 
-.. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_pars_jypxl_faceon_offsets.png?raw=true
+.. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/PCA_jypxl_faceon_offsets.png?raw=true
 
 .. note::
-   With the file *overlaped_portions.txt* you can control which cloud portions will the fitting algorithm reject. Commonly, you might want to reject cloud portions that are overlaping too much or those from where the PCA-derived scales are few (which may lead to non-trustable fits).
+   With the file *overlaped_portions.txt* you can control which cloud portion(s) should be removed from the analysis using the cloud id. Commonly, one might want to reject cloud portions that are overlaping too much with others and also those where the PCA-derived scales are too few (which may lead to unreliable fits).
 
 ::
 
    #Overlaping portions to reject. if None put -1
-   faceon	 	0,5,7,11
+   faceon	 	0,4,7,14,15
    edgeon	 	9,5,2,3,7
    edgeon_phi90	 	0,3,5
    edgeon_phi90tau	 2,4

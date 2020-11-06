@@ -15,13 +15,12 @@ observations or simulated data via radiative transfer. The PCA is carefully comp
 input data as illustrated below,  
 
 .. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/pca_final_sketch.png?raw=true
-
+   :width: 30%
+ 
 Then, the package shows the combined spatial and spectral scales, as well as the associated velocity structure functions, 
 and stores this information in a database that can be used later for further analysis.
 
 .. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_fit_jypxl_faceon_allportions.png?raw=true
-
-   .. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/PCA_jypxl_faceon_offsets.png?raw=true
 
 
 Requirements
