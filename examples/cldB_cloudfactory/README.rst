@@ -7,7 +7,7 @@ Cloud Complex description
 * There are also supernova explosions randomly distributed all over the Galaxy.
 * There is also chemical evolution of CO and Hydrogen species; sink particles representing star-forming regions; radiative heating and cooling and galactic differential rotation.
 
-Find full details of the simulation setup of this (cloud complex B) and other types of cloud complexes in the Cloud Factory series of papers (I, II)
+Find full details of the simulation setup of this and other types of cloud complexes in the Cloud Factory series of papers (I, II)
 
 These simulations are powered by a customised version of the AREPO code (Springel+2010)
 
