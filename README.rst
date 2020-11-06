@@ -22,6 +22,7 @@ and stores this information in a database that can be used later for further ana
 
 .. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_fit_jypxl_faceon_allportions.png?raw=true
 
+Find tutorials in the `examples folder <https://github.com/andizq/pcafactory/tree/master/examples>`_.
 
 Requirements
 ------------
