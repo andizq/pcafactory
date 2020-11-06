@@ -4,25 +4,24 @@ pcafactory
 .. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3822718.svg
    :target: https://doi.org/10.5281/zenodo.3822718
 
-The **pcafactory** is an analysis tool to study and extract velocity fluctuations from the interstellar medium (ISM). 
-This has been proven to be a powerful proxy to understanding the nature of non-thermal motions driven by turbulent 
+The **pcafactory** is an analysis tool to study and extract velocity fluctuations from the interstellar medium (ISM), 
+which have been proven to be a powerful proxy to understanding the nature of non-thermal motions driven by turbulent 
 and/or gravitational processes taking place in the ISM. Though it may also be used for any atomic/molecular 
 association with kinematical observables.
 
-To do so, the package collects features from TurbuStat and astrodendro to derive velocity structure functions 
+To do so, the package collects features from TurbuStat and Astrodendro to derive velocity structure functions 
 by performing principal component analysis (PCA) on molecular line intensity cubes, which can be the product of 
 observations or simulated data via radiative transfer. The PCA is carefully computed on selected regions of the 
 input data as illustrated below,  
 
 .. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/pca_final_sketch.png?raw=true
-   :width: 112.5
 
-Then, the package shows the resulting spatial and spectral scales, as well as the associated velocity structure functions, 
+Then, the package shows the combined spatial and spectral scales, as well as the associated velocity structure functions, 
 and stores this information in a database that can be used later for further analysis.
 
 .. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/img_fit_jypxl_faceon_allportions.png?raw=true
 
-.. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/PCA_jypxl_faceon_offsets.png?raw=true
+   .. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/PCA_jypxl_faceon_offsets.png?raw=true
 
 
 Requirements
