@@ -4,8 +4,8 @@ pcafactory
 .. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3822718.svg
    :target: https://doi.org/10.5281/zenodo.3822718
 
-The **pcafactory** is an analysis tool to extract velocity fluctuations in the interstellar medium (ISM). The study  
-of these fluctuations has proven to be a robust approach for understanding the nature of non-thermal motions driven by turbulent 
+The **pcafactory** is an analysis tool to extract velocity fluctuations in the interstellar medium (ISM). Studying 
+these fluctuations has proven to be a robust approach to understanding the nature of non-thermal motions driven by turbulent 
 and gravitational processes taking place in the ISM.
 
 To do so, the package collects features from TurbuStat and Astrodendro to derive velocity structure functions 
