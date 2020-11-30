@@ -155,7 +155,7 @@ The script executed by *run_all.sh* is determined by the accompanying argument i
 .. image:: https://github.com/andizq/andizq.github.io/blob/master/pcafactory-data/examples-data/cldB_cloudfactory/PCA_jypxl_faceon_offsets.png?raw=true
 
 .. note::
-   With the file *overlaped_portions.txt* you can control which cloud portion(s) should be removed from the analysis using the cloud id. Commonly, one might want to reject cloud portions that are overlaping too much with others and also those where the PCA-derived scales are too few (which may lead to unreliable fits).
+   With the file *overlaped_portions.txt* you can control which cloud portion(s) should be removed from the analysis using the cloud id. Commonly, one might want to reject cloud portions that overlap one another too much and also those where the PCA-derived scales are too few (which can lead to unreliable fits).
 
 ::
 
