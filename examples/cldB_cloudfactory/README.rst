@@ -7,9 +7,9 @@ Cloud Complex description
 * There are also supernova explosions randomly distributed all over the Galaxy.
 * There is also chemical evolution of CO and Hydrogen species; sink particles representing star-forming regions; radiative heating and cooling and galactic differential rotation.
 
-Find full details of the simulation setup of this and other types of cloud complexes in the Cloud Factory series of papers (I, II)
+Find full details of the simulation setup of this and other types of cloud complexes in the Cloud Factory series of papers (`I <https://ui.adsabs.harvard.edu/abs/2020MNRAS.492.1594S/abstract>`_, `II <https://ui.adsabs.harvard.edu/abs/2021MNRAS.500.5268I/abstract>`_)
 
-These simulations are powered by a customised version of the AREPO code (Springel+2010)
+These simulations are powered by a customised version of the AREPO code (`Springel, 2010 <https://ui.adsabs.harvard.edu/abs/2010MNRAS.401..791S/abstract>`_)
 
 pcafactory-data repository
 --------------------------
@@ -19,7 +19,7 @@ where you will find the following files:
  
 * Simulation snapshot of the cloud complex.
 * 12CO J=1-0 intensity cubes: 3 line intensity cubes for different cloud orientations (face-on, edge-on phi=0, edge-on phi=90) generated with sf3dmodels and LIME.
-* Optical depth cube for the edge-on phi=90 case.
+* Optical depth cube for an edge-on view of the complex.
 
 Quick Tutorial
 --------------
@@ -54,13 +54,13 @@ Quick Tutorial
    
    curl https://home.strw.leidenuniv.nl/~moldata/datafiles/co.dat -o co.dat 
 
-5. Run our version of LIME, adapted to model radiative transfer of Arepo-like (voronoi) meshes. It is available `here <https://github.com/andizq/star-forming-regions>`_. The flag -S indicates that the grid was generated with `sf3dmodels <https://github.com/andizq/star-forming-regions>`_, and the flag -G indicates that the input grid is not uniform. The flag -n is to show log messages in terminal. We use 8 cores by setting -p 8 (LIME uses openmp for parallel processing). 
+5. Run the sf3dmodels version of LIME, available `here <https://github.com/andizq/star-forming-regions>`_. The flag -S means that the grid was generated with `sf3dmodels <https://github.com/andizq/star-forming-regions>`_, and the flag -G indicates that the input grid is not uniform. The flag -n is to show log messages in terminal. We use 8 cores by setting -p 8 (LIME uses openmp for parallel processing).
 
 .. code-block:: bash
 
    lime -nSG -p 8 rt-lime.c 
 
-The resulting line cubes (.fits) can be found in the repository prepared for this example.
+The resulting synthetic cubes (.fits) can be found in the repository prepared for this example.
 
 6. Let's create a new folder to store moment 0 maps and dendrograms.
 
