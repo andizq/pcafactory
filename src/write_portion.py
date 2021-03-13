@@ -41,5 +41,5 @@ for i,line in enumerate(txt[2:]):
     limy_m = int(round(cy-0.5*dy))
     limy_p = int(round(cy+0.5*dy))
     output = 'img_%s_%s_portion_%03d.fits'%(args.unit,args.incl,i)
-    newdata = cube.data[:,:,limy_m:limy_p, limx_m:limx_p]
+    newdata = cube.data.squeeze()[:,limy_m:limy_p, limx_m:limx_p]
     fits.writeto(folder_reg+output, newdata, cube.header, overwrite=True)

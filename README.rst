@@ -62,6 +62,22 @@ Developers
 Citing the pcafactory
 ---------------------
 
-The **pcafactory** is introduced in the Paper II of the Cloud Factory series. Please refer to that work if this package is useful for your research.
+The **pcafactory** is introduced in the `Paper II >https://ui.adsabs.harvard.edu/abs/2021MNRAS.500.5268I/abstract>`_ of the Cloud Factory series. Please refer to that work if this package is useful for your research.
 
-(Include bibtex when available).
+   @ARTICLE{2021MNRAS.500.5268I,
+	  author = {{Izquierdo}, Andr{\'e}s F. and {Smith}, Rowan J. and {Glover}, Simon C.~O. and {Klessen}, Ralf S. and {Tre{\ss}}, Robin G. and {Sormani}, Mattia C. and {Clark}, Paul C. and {Duarte-Cabral}, Ana and {Zucker}, Catherine},
+	   title = "{The Cloud Factory II: gravoturbulent kinematics of resolved molecular clouds in a galactic potential}",
+	 journal = {\mnras},
+	keywords = {gravitation, radiative transfer, turbulence, ISM: clouds, ISM: structure, Astrophysics - Astrophysics of Galaxies, Astrophysics - Solar and Stellar Astrophysics},
+	    year = 2021,
+	   month = jan,
+	  volume = {500},
+	  number = {4},
+	   pages = {5268-5296},
+	     doi = {10.1093/mnras/staa3470},
+   archivePrefix = {arXiv},
+	  eprint = {2011.02582},
+    primaryClass = {astro-ph.GA},
+	  adsurl = {https://ui.adsabs.harvard.edu/abs/2021MNRAS.500.5268I},
+	 adsnote = {Provided by the SAO/NASA Astrophysics Data System}
+   }
