@@ -62,7 +62,7 @@ Developers
 Citing the pcafactory
 ---------------------
 
-The **pcafactory** is introduced in the `Paper II >https://ui.adsabs.harvard.edu/abs/2021MNRAS.500.5268I/abstract>`_ of the Cloud Factory series. Please refer to that work if this package is useful for your research.
+The **pcafactory** is introduced in the `Paper II <https://ui.adsabs.harvard.edu/abs/2021MNRAS.500.5268I/abstract>`_ of the Cloud Factory series. Please refer to that work if this package is useful for your research::
 
    @ARTICLE{2021MNRAS.500.5268I,
 	  author = {{Izquierdo}, Andr{\'e}s F. and {Smith}, Rowan J. and {Glover}, Simon C.~O. and {Klessen}, Ralf S. and {Tre{\ss}}, Robin G. and {Sormani}, Mattia C. and {Clark}, Paul C. and {Duarte-Cabral}, Ana and {Zucker}, Catherine},
